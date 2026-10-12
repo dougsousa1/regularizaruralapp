@@ -1,0 +1,62 @@
+id: fluxo-preciso-de-outorga
+titulo: Preciso de outorga para usar esta água?
+pilar: ambiental
+tipo: fluxo
+resumo: Identifica se o uso exige outorga, se cabe dispensa por uso insignificante e qual órgão procurar.
+fonte: Aula 01 — Pilar Ambiental
+revisao: pendente
+inicio: uso
+
+perguntas:
+  uso:
+    texto: Há algum uso ou intervenção na água (captação, poço, barramento, lago, lançamento de efluente, desvio)?
+    opcoes:
+      - rotulo: Sim
+        proximo: insignificante
+      - rotulo: Não, a água só existe no imóvel, sem uso
+        resultado: sem_outorga
+
+  insignificante:
+    texto: O uso é pequeno, só para consumo da propriedade ou de pequeno núcleo rural, dentro do limite de "insignificante" do Estado?
+    opcoes:
+      - rotulo: Sim
+        resultado: dispensa_cadastro
+      - rotulo: Não ou não sei
+        proximo: origem
+
+  origem:
+    texto: De onde vem a água?
+    opcoes:
+      - rotulo: Poço / água subterrânea
+        resultado: estadual
+      - rotulo: Rio estadual (nasce e corre no mesmo Estado)
+        resultado: estadual
+      - rotulo: Rio interestadual, de divisa ou navegável
+        resultado: federal
+
+resultados:
+  sem_outorga:
+    titulo: Sem outorga
+    texto: Água sem uso não exige outorga. Se surgir qualquer uso, reavalie antes de intervir.
+    links: [outorga-recursos-hidricos]
+
+  dispensa_cadastro:
+    titulo: Dispensa — mas faça o cadastro
+    texto: >
+      Usos insignificantes dispensam outorga, mas muitos Estados exigem cadastro, que gera a
+      dispensa sem custo. Guarde o comprovante.
+    links: [outorga-recursos-hidricos, checklist-outorga]
+
+  estadual:
+    titulo: Outorga no órgão estadual
+    texto: >
+      Água subterrânea e rios estaduais são do Estado. Peça a outorga antes da intervenção
+      (outorga prévia para projetos grandes). O município nunca concede outorga.
+    links: [outorga-recursos-hidricos, checklist-outorga]
+
+  federal:
+    titulo: Outorga na ANA
+    texto: >
+      Rios da União são outorgados pela ANA (sistema REGLA). Peça antes de intervir; sem outorga
+      há infração (Lei 9.433, art. 49) e risco de embargo.
+    links: [outorga-recursos-hidricos, checklist-outorga]

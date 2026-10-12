@@ -1,0 +1,66 @@
+id: fluxo-intervencao-em-app
+titulo: Posso fazer esta intervenção nova em APP?
+pilar: ambiental
+tipo: fluxo
+resumo: Para intervenções novas (após 22/07/2008), indica se a hipótese legal permite e o que pedir ao órgão.
+fonte: Aulas 03 e 04 — Pilar Ambiental
+revisao: pendente
+inicio: tipo
+
+perguntas:
+  tipo:
+    texto: Em que tipo de APP será a intervenção?
+    opcoes:
+      - rotulo: Nascente, duna ou restinga
+        proximo: utilidade_publica
+      - rotulo: Outra APP (rio, lago, vereda, encosta, topo de morro...)
+        proximo: hipotese
+
+  utilidade_publica:
+    texto: "A obra é de utilidade pública (ex.: infraestrutura pública, segurança nacional)?"
+    opcoes:
+      - rotulo: Sim
+        resultado: pedir_autorizacao
+      - rotulo: Não
+        resultado: proibido
+
+  hipotese:
+    texto: A intervenção se enquadra em utilidade pública, interesse social ou baixo impacto?
+    ajuda: "Baixo impacto: pequenas vias e pontes, acesso de pessoas e animais à água, captação de água, trilhas, rampas de barco e pequenos ancoradouros, cercas, moradia de agricultor familiar, plantio de nativas."
+    opcoes:
+      - rotulo: Sim
+        proximo: urgencia
+      - rotulo: Não
+        resultado: proibido
+
+  urgencia:
+    texto: É obra urgente de defesa civil ou segurança nacional?
+    opcoes:
+      - rotulo: Sim
+        resultado: dispensa
+      - rotulo: Não
+        resultado: pedir_autorizacao
+
+resultados:
+  proibido:
+    titulo: Intervenção vedada
+    texto: >
+      Fora das hipóteses legais, não se constrói nem se desmata em APP. Lembre-se da faixa cheia
+      (rio — 30 a 500 m; nascente — 50 m). Se a ocupação já existia em 22/07/2008, verifique o
+      uso consolidado.
+    links: [app-e-reserva-legal, fluxo-uso-consolidado-app]
+
+  pedir_autorizacao:
+    titulo: Peça autorização ao órgão licenciador
+    texto: >
+      Protocole o pedido no órgão que licencia (que pode detalhar o que é baixo impacto). Não
+      comece antes da autorização. O acesso do gado à água é permitido, mas sem causar dano —
+      prefira um corredor.
+    links: [licenciamento-ctf, app-e-reserva-legal]
+
+  dispensa:
+    titulo: Dispensa de autorização
+    texto: >
+      Obras urgentes de defesa civil e de segurança nacional dispensam autorização. Documente a
+      urgência.
+    links: [app-e-reserva-legal]

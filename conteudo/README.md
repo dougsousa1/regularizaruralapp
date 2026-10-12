@@ -24,7 +24,7 @@ conteudo/
 | Imobiliário | ✅ Primeira versão — aguardando revisão jurídica |
 | Aquisição de Imóveis | ✅ Primeira versão — aguardando revisão jurídica |
 | Fiscal | ✅ Primeira versão — aguardando revisão jurídica |
-| Ambiental | ⏳ A fazer |
+| Ambiental | ✅ Primeira versão — aguardando revisão jurídica |
 | Cadastros | ✅ Primeira versão — aguardando revisão jurídica |
 | Temas Especiais (holding, crédito rural, carbono…) | ⏳ A fazer |
 
