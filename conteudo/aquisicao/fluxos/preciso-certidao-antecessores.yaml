@@ -1,0 +1,92 @@
+id: fluxo-preciso-certidao-antecessores
+titulo: Preciso tirar certidões dos antecessores? Posso recomendar a compra?
+pilar: aquisicao
+tipo: fluxo
+resumo: Decide quando estender a diligência aos antecessores e como ler o risco de fraude à execução do vendedor e dos antecessores.
+fonte: Aula 01 — Pilar Aquisição de Imóveis
+revisao: pendente
+inicio: tempo_vendedor
+
+perguntas:
+  tempo_vendedor:
+    texto: Pela matrícula, há quanto tempo o vendedor é dono do imóvel?
+    opcoes:
+      - rotulo: Há mais de 10 anos (sem outras transferências no período)
+        proximo: vendedor_dividas
+      - rotulo: Há menos de 10 anos (houve transferências no período)
+        proximo: antecessores_dividas
+
+  antecessores_dividas:
+    texto: As certidões dos antecessores dos últimos 10 anos (ou 20) apontam dívida com o fisco inscrita em dívida ativa antes da venda que eles fizeram?
+    ajuda: Tire dos antecessores as mesmas certidões do vendedor (sem documentos pessoais). Se a aquisição do vendedor tem menos de 5 anos, inclua o IBAMA.
+    opcoes:
+      - rotulo: Sim
+        resultado: antecessor_devedor
+      - rotulo: Não
+        proximo: vendedor_dividas
+      - rotulo: Ainda não tirei
+        resultado: tirar_antecessores
+
+  vendedor_dividas:
+    texto: As certidões do vendedor apontam ações ou dívidas relevantes?
+    opcoes:
+      - rotulo: Não, tudo negativo
+        resultado: sem_risco
+      - rotulo: Sim
+        proximo: patrimonio
+
+  patrimonio:
+    texto: O vendedor tem patrimônio livre suficiente para cobrir as dívidas (além do imóvel vendido)?
+    ajuda: Peça o relatório do advogado de cada causa e levante imóveis, empresas e veículos.
+    opcoes:
+      - rotulo: Sim, o patrimônio supera bastante as dívidas
+        resultado: risco_baixo
+      - rotulo: Não, o imóvel é o principal ou único ativo
+        resultado: nao_recomendar
+      - rotulo: Não sei
+        resultado: levantar_patrimonio
+
+resultados:
+  tirar_antecessores:
+    titulo: Tire as certidões dos antecessores
+    texto: >
+      Pela decisão do STJ, alienações sucessivas após a inscrição em dívida ativa são
+      ineficazes mesmo para o terceiro de boa-fé (CTN, art. 185). A Lei 13.097/2015
+      ainda não dispensa essa análise.
+    links: [analise-vendedor-antecessores, checklist-due-diligence-vendedor]
+
+  antecessor_devedor:
+    titulo: Alto risco — em regra, não comprar
+    texto: >
+      Dívida fiscal inscrita antes da venda feita pelo antecessor pode tornar todas as
+      vendas seguintes ineficazes. Só siga se houver demonstração de que a dívida será
+      quitada de outra forma, e registre o risco no parecer.
+    links: [analise-vendedor-antecessores]
+
+  sem_risco:
+    titulo: Sem apontamentos
+    texto: >
+      Conclua o parecer com as ressalvas dos documentos não fornecidos e leve os
+      achados do imóvel para o contrato.
+    links: [parecer-e-contrato-compra-venda]
+
+  risco_baixo:
+    titulo: Risco baixo de fraude
+    texto: >
+      Com patrimônio suficiente, a chance de a venda ser declarada fraudulenta é
+      baixa. Documente a tabela de passivos e o patrimônio no parecer.
+    links: [parecer-e-contrato-compra-venda]
+
+  nao_recomendar:
+    titulo: Não recomende a compra
+    texto: >
+      Vendedor endividado vendendo o único ativo: a chance de fraude à execução ou
+      contra credores é altíssima, mesmo com o comprador de boa-fé.
+    links: [analise-vendedor-antecessores]
+
+  levantar_patrimonio:
+    titulo: Levante o patrimônio antes de concluir
+    texto: >
+      Peça o relatório dos advogados das causas e levante imóveis, participações e
+      veículos do vendedor. A conclusão depende da comparação dívidas x patrimônio.
+    links: [analise-vendedor-antecessores, checklist-due-diligence-vendedor]

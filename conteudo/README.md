@@ -21,8 +21,8 @@ conteudo/
 | Pilar | Status |
 |---|---|
 | Contratos Agrários | ✅ Primeira versão — aguardando revisão jurídica |
-| Imobiliário | ⏳ A fazer |
-| Aquisição de Imóveis | ⏳ A fazer |
+| Imobiliário | ✅ Primeira versão — aguardando revisão jurídica |
+| Aquisição de Imóveis | ✅ Primeira versão — aguardando revisão jurídica |
 | Fiscal | ⏳ A fazer |
 | Ambiental | ⏳ A fazer |
 | Cadastros | ⏳ A fazer |
