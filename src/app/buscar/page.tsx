@@ -6,9 +6,9 @@ export const metadata = { title: "Buscar" };
 
 export default function Pagina() {
   return (
-    <div className="container-site py-8">
+    <div className="container-site pt-2 lg:pt-0">
       <Trilha partes={[{ rotulo: "Buscar" }]} />
-      <h1 className="font-serif text-3xl font-semibold text-stone-900">Buscar na base</h1>
+      <h1 className="titulo-display text-3xl sm:text-4xl">Buscar na base</h1>
       <Suspense>
         <BuscaCompleta />
       </Suspense>

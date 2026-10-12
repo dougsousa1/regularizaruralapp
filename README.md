@@ -37,7 +37,10 @@ em código. O painel `/revisao` reúne os pontos que a mentora precisa confirmar
    - [Fiscal](conteudo/fiscal/REVISAO.md)
    - [Ambiental](conteudo/ambiental/REVISAO.md)
    - [Temas Especiais](conteudo/temas-especiais/REVISAO.md)
-2. **Plataforma web**: primeira versão pronta — busca instantânea, páginas por pilar,
-   guias com índice, checklists interativos, fluxos de decisão e painel de revisão
+2. **Plataforma web**: pronta, com a identidade visual do Regulariza Rural (tema escuro,
+   dourado do monograma RR). Inclui busca instantânea, painel do aluno ("continue de onde
+   parou", checklists em andamento, progresso), páginas por pilar, guias com índice,
+   checklists interativos, fluxos de decisão, salvos e painel de revisão. Instalável no
+   celular como app (PWA).
 3. Assistente com IA
 4. Modelos de contrato e calculadoras

@@ -32,15 +32,15 @@ export default function BuscaCompleta() {
           e.preventDefault();
           router.replace(`/buscar?q=${encodeURIComponent(consulta)}`);
         }}
-        className="flex items-center gap-3 rounded-xl bg-white px-4 shadow-sm ring-1 ring-stone-200 focus-within:ring-mata-500"
+        className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-5 backdrop-blur transition focus-within:border-ouro-400/50"
       >
-        <Icone nome="busca" className="h-5 w-5 text-stone-400" />
+        <Icone nome="busca" className="h-5 w-5 text-ouro-300" />
         <input
           autoFocus
           value={consulta}
           onChange={(e) => setConsulta(e.target.value)}
           placeholder="Busque um tema, lei ou situação"
-          className="h-12 w-full bg-transparent outline-none"
+          className="h-14 w-full bg-transparent text-white outline-none placeholder:text-white/30 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </form>
 
@@ -48,7 +48,7 @@ export default function BuscaCompleta() {
         <select
           value={pilar}
           onChange={(e) => setPilar(e.target.value)}
-          className="rounded-lg border border-stone-200 bg-white px-3 py-1.5"
+          className="rounded-full border border-white/10 bg-noite-800 px-4 py-2 text-white/80"
           aria-label="Filtrar por pilar"
         >
           <option value="">Todos os pilares</option>
@@ -61,7 +61,7 @@ export default function BuscaCompleta() {
         <select
           value={tipo}
           onChange={(e) => setTipo(e.target.value as Tipo | "")}
-          className="rounded-lg border border-stone-200 bg-white px-3 py-1.5"
+          className="rounded-full border border-white/10 bg-noite-800 px-4 py-2 text-white/80"
           aria-label="Filtrar por tipo"
         >
           <option value="">Todos os tipos</option>
@@ -73,14 +73,14 @@ export default function BuscaCompleta() {
         </select>
       </div>
 
-      {!indice && <p className="mt-8 text-stone-500">Carregando a base…</p>}
+      {!indice && <p className="mt-8 text-white/45">Carregando a base…</p>}
       {indice && consulta.trim() && (
-        <p className="mt-6 text-sm text-stone-500">
+        <p className="mt-6 text-sm text-white/45">
           {resultados.length} resultado{resultados.length === 1 ? "" : "s"} para “{consulta}”
         </p>
       )}
       {indice && consulta.trim() && !resultados.length && (
-        <p className="mt-4 text-stone-600">
+        <p className="mt-4 text-white/55">
           Nada encontrado. Tente sinônimos (ex.: “arrendamento” em vez de “aluguel de terra”) ou menos palavras.
         </p>
       )}

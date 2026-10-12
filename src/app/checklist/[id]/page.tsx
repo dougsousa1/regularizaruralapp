@@ -21,10 +21,10 @@ export default async function PaginaChecklist({ params }: Props) {
   const { id } = await params;
   const { item } = cabecalhoItem(id, "checklist");
   return (
-    <div className="container-site py-8">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <div className="container-site pt-2 lg:pt-0">
+      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_17rem] xl:gap-10">
         <article className="min-w-0">
-          <Cabecalho id={id} tipo="checklist" acoes={false} />
+          <Cabecalho id={id} tipo="checklist" concluivel={false} />
           <div className="mt-8">
             <ChecklistInterativo id={item.id} titulo={item.titulo} secoes={estruturarChecklist(item)} />
           </div>

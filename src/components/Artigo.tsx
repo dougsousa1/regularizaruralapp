@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getItem, relacionadosDe, renderizar, resumo } from "@/lib/conteudo";
+import { getItem, itensDoPilar, relacionadosDe, renderizar, rota } from "@/lib/conteudo";
 import { getPilar, TIPOS, type Tipo } from "@/lib/pilares";
-import { BotaoCopiar, BotaoImprimir } from "./Acoes";
-import { CartaoItem, SeloRevisao, SeloTipo, Trilha } from "./Cartoes";
+import { BarraLeitura, BotaoConcluir, BotaoCopiar, BotaoImprimir, BotaoSalvar, Indice, RegistrarVisita } from "./Acoes";
+import { IconeTipo, SeloRevisao, SeloTipo, Trilha } from "./Cartoes";
+import Icone from "./Icone";
 
 export function cabecalhoItem(id: string, tipo: Tipo) {
   const item = getItem(id);
@@ -12,31 +13,30 @@ export function cabecalhoItem(id: string, tipo: Tipo) {
   return { item, pilar };
 }
 
-export function Cabecalho({ id, tipo, acoes = true }: { id: string; tipo: Tipo; acoes?: boolean }) {
+export function Cabecalho({ id, tipo, concluivel = true }: { id: string; tipo: Tipo; concluivel?: boolean }) {
   const { item, pilar } = cabecalhoItem(id, tipo);
   return (
-    <>
+    <header className="animate-surgir">
+      <RegistrarVisita id={id} />
       <Trilha
         partes={[
           { href: `/pilar/${pilar.slug}`, rotulo: pilar.nome },
-          { href: `/pilar/${pilar.slug}#${tipo}`, rotulo: TIPOS[tipo].plural },
+          { href: `/pilar/${pilar.slug}`, rotulo: TIPOS[tipo].plural },
         ]}
       />
       <div className="flex flex-wrap items-center gap-2">
         <SeloTipo tipo={tipo} />
         <SeloRevisao revisao={item.revisao} />
       </div>
-      <h1 className="mt-3 font-serif text-3xl font-semibold leading-tight text-stone-900 sm:text-4xl">
-        {item.titulo}
-      </h1>
-      <p className="mt-3 max-w-3xl text-lg text-stone-600">{item.resumo}</p>
-      {acoes && (
-        <div className="nao-imprimir mt-4 flex flex-wrap gap-2">
-          <BotaoImprimir />
-          <BotaoCopiar />
-        </div>
-      )}
-    </>
+      <h1 className="titulo-display mt-4 text-[1.85rem] leading-[1.12] sm:text-[2.6rem]">{item.titulo}</h1>
+      <p className="mt-4 max-w-3xl text-[15.5px] leading-relaxed text-white/55 sm:text-base">{item.resumo}</p>
+      <div className="nao-imprimir mt-6 flex flex-wrap gap-2">
+        {concluivel && <BotaoConcluir id={id} />}
+        <BotaoSalvar id={id} />
+        <BotaoCopiar />
+        <BotaoImprimir />
+      </div>
+    </header>
   );
 }
 
@@ -44,46 +44,50 @@ export function Lateral({ id, secoes }: { id: string; secoes?: { id: string; tit
   const item = getItem(id)!;
   const rel = relacionadosDe(item);
   return (
-    <aside className="nao-imprimir space-y-8 text-sm lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+    <aside className="nao-imprimir space-y-5 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto lg:pb-8 sem-barra">
       {secoes && secoes.length > 2 && (
-        <div>
-          <h2 className="font-semibold text-stone-900">Nesta página</h2>
-          <ul className="mt-2 space-y-1.5 border-l border-stone-200">
-            {secoes.map((s) => (
-              <li key={s.id}>
-                <a href={`#${s.id}`} className="-ml-px block border-l border-transparent pl-3 text-stone-600 hover:border-mata-600 hover:text-mata-800">
-                  {s.titulo}
-                </a>
+        <div className="hidden lg:block">
+          <p className="rotulo text-white/40">Nesta página</p>
+          <Indice secoes={secoes} />
+        </div>
+      )}
+      {item.baseLegal.length > 0 && (
+        <div className="vidro p-5">
+          <p className="rotulo flex items-center gap-2">
+            <Icone nome="livro" className="h-3.5 w-3.5" /> Base legal
+          </p>
+          <ul className="mt-3 space-y-2 text-[13px] leading-snug text-white/65">
+            {item.baseLegal.map((b) => (
+              <li key={b} className="flex gap-2">
+                <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-ouro-400" />
+                {b}
               </li>
             ))}
           </ul>
         </div>
       )}
-      {item.baseLegal.length > 0 && (
-        <div>
-          <h2 className="font-semibold text-stone-900">Base legal</h2>
-          <ul className="mt-2 space-y-1 text-stone-600">
-            {item.baseLegal.map((b) => (
-              <li key={b}>{b}</li>
+      {rel.length > 0 && (
+        <div className="vidro p-2">
+          <p className="rotulo px-3 pb-1 pt-3 text-white/40">Veja também</p>
+          <ul>
+            {rel.slice(0, 8).map((r) => (
+              <li key={r.id}>
+                <Link href={rota(r)} className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-white/[0.05]">
+                  <IconeTipo tipo={r.tipo} tamanho="h-8 w-8" />
+                  <span className="min-w-0 flex-1">
+                    <span className="line-clamp-2 text-[13px] font-semibold leading-snug text-white/85 group-hover:text-white">{r.titulo}</span>
+                    <span className="text-[11px] text-white/35">{TIPOS[r.tipo].nome}</span>
+                  </span>
+                </Link>
+              </li>
             ))}
           </ul>
         </div>
       )}
-      {rel.length > 0 && (
-        <div>
-          <h2 className="font-semibold text-stone-900">Veja também</h2>
-          <div className="mt-2 space-y-2">
-            {rel.slice(0, 8).map((r) => (
-              <CartaoItem key={r.id} item={resumo(r)} />
-            ))}
-          </div>
-        </div>
-      )}
       {item.fonte && (
-        <div>
-          <h2 className="font-semibold text-stone-900">Fonte</h2>
-          <p className="mt-2 text-stone-600">{item.fonte}</p>
-        </div>
+        <p className="px-1 text-xs leading-relaxed text-white/35">
+          <span className="font-semibold text-white/50">Fonte:</span> {item.fonte}
+        </p>
       )}
     </aside>
   );
@@ -93,15 +97,11 @@ export function Tags({ id }: { id: string }) {
   const item = getItem(id)!;
   if (!item.tags.length) return null;
   return (
-    <div className="nao-imprimir mt-10 border-t border-stone-200 pt-6">
-      <h2 className="text-sm font-semibold text-stone-900">Assuntos</h2>
-      <div className="mt-2 flex flex-wrap gap-1.5">
+    <div className="nao-imprimir mt-8">
+      <p className="rotulo text-white/40">Assuntos</p>
+      <div className="mt-3 flex flex-wrap gap-1.5">
         {item.tags.map((t) => (
-          <Link
-            key={t}
-            href={`/buscar?q=${encodeURIComponent(t)}`}
-            className="rounded-full bg-stone-100 px-2.5 py-0.5 text-xs text-stone-600 hover:bg-mata-100 hover:text-mata-800"
-          >
+          <Link key={t} href={`/buscar?q=${encodeURIComponent(t)}`} className="chip transition hover:border-ouro-400/40 hover:text-white">
             {t}
           </Link>
         ))}
@@ -110,16 +110,54 @@ export function Tags({ id }: { id: string }) {
   );
 }
 
+export function Vizinhos({ id }: { id: string }) {
+  const item = getItem(id)!;
+  const lista = itensDoPilar(item.pilar, item.tipo);
+  const n = lista.findIndex((i) => i.id === id);
+  const ant = lista[n - 1];
+  const prox = lista[n + 1];
+  if (!ant && !prox) return null;
+  return (
+    <nav className="nao-imprimir mt-8 grid gap-3 sm:grid-cols-2">
+      {ant ? (
+        <Link href={rota(ant)} className="vidro-interativo group p-4">
+          <span className="flex items-center gap-1 text-xs font-semibold text-white/40">
+            <Icone nome="voltar" className="h-3.5 w-3.5" /> Anterior
+          </span>
+          <span className="mt-1 line-clamp-2 block font-semibold text-white/85 group-hover:text-white">{ant.titulo}</span>
+        </Link>
+      ) : (
+        <span />
+      )}
+      {prox && (
+        <Link href={rota(prox)} className="vidro-interativo group p-4 text-right">
+          <span className="flex items-center justify-end gap-1 text-xs font-semibold text-white/40">
+            Próximo <Icone nome="seta" className="h-3.5 w-3.5" />
+          </span>
+          <span className="mt-1 line-clamp-2 block font-semibold text-white/85 group-hover:text-white">{prox.titulo}</span>
+        </Link>
+      )}
+    </nav>
+  );
+}
+
 export default function Artigo({ id, tipo }: { id: string; tipo: Tipo }) {
   const { item } = cabecalhoItem(id, tipo);
   const { html, secoes } = renderizar(item.corpo, item.arquivo);
   return (
-    <div className="container-site py-8">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <div className="container-site pt-2 lg:pt-0">
+      <BarraLeitura />
+      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_17rem] xl:gap-10">
         <article className="min-w-0">
           <Cabecalho id={id} tipo={tipo} />
-          <div className="conteudo-guia mt-8" dangerouslySetInnerHTML={{ __html: html }} />
+          <div className="vidro mt-8 px-5 py-2 sm:px-9 sm:py-4">
+            <div className="conteudo-guia" dangerouslySetInnerHTML={{ __html: html }} />
+          </div>
+          <div className="nao-imprimir mt-6">
+            <BotaoConcluir id={id} grande />
+          </div>
           <Tags id={id} />
+          <Vizinhos id={id} />
         </article>
         <Lateral id={id} secoes={secoes} />
       </div>

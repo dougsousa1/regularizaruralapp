@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type MiniSearch from "minisearch";
 import { buscar, carregarIndice, type DocBusca, type ResultadoBusca } from "@/lib/busca";
 import { getPilar, rotaDoItem, TIPOS } from "@/lib/pilares";
+import { IconeTipo } from "./Cartoes";
 import Icone from "./Icone";
 
 export const EVENTO_ABRIR_BUSCA = "abrir-busca";
@@ -74,15 +75,15 @@ export default function PaletaBusca() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-stone-900/40 px-4 pt-[10vh] backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-start justify-center bg-noite-950/70 px-3 pt-[8vh] backdrop-blur-md sm:px-4 sm:pt-[12vh]"
       onMouseDown={(e) => e.target === e.currentTarget && setAberta(false)}
       role="dialog"
       aria-modal="true"
       aria-label="Buscar na base"
     >
-      <div className="w-full max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-stone-200">
-        <div className="flex items-center gap-3 border-b border-stone-200 px-4">
-          <Icone nome="busca" className="h-5 w-5 text-stone-400" />
+      <div className="w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-noite-850/95 shadow-2xl shadow-black/70 animate-surgir">
+        <div className="flex items-center gap-3 border-b border-white/[0.07] px-5">
+          <Icone nome="busca" className="h-5 w-5 text-ouro-300" />
           <input
             ref={input}
             value={consulta}
@@ -102,22 +103,41 @@ export default function PaletaBusca() {
                 ir(resultados[ativo]);
               }
             }}
-            placeholder="Ex.: preço do arrendamento, CCIR de posse, uso consolidado..."
-            className="h-14 w-full bg-transparent text-base outline-none placeholder:text-stone-400"
+            placeholder="Tema, lei ou situação do cliente…"
+            className="h-16 w-full bg-transparent text-base text-white outline-none placeholder:text-white/30 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
-          <kbd className="hidden rounded border border-stone-200 px-1.5 text-xs text-stone-400 sm:block">Esc</kbd>
+          <button
+            onClick={() => setAberta(false)}
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/[0.06] text-white/50 hover:text-white"
+            aria-label="Fechar"
+          >
+            <Icone nome="fechar" className="h-4 w-4" />
+          </button>
         </div>
 
-        <div className="max-h-[60vh] overflow-y-auto">
-          {erro && <p className="p-6 text-sm text-red-700">Não foi possível carregar a busca. Tente de novo.</p>}
-          {!erro && !indice && <p className="p-6 text-sm text-stone-500">Carregando a base…</p>}
+        <div className="max-h-[62vh] overflow-y-auto p-2">
+          {erro && <p className="p-5 text-sm text-red-300">Não foi possível carregar a busca. Tente de novo.</p>}
+          {!erro && !indice && (
+            <div className="space-y-2 p-3">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="h-14 animate-pulse rounded-xl bg-white/[0.04]" />
+              ))}
+            </div>
+          )}
           {indice && !consulta.trim() && (
-            <p className="p-6 text-sm text-stone-500">
-              Digite um assunto, uma lei (ex.: <em>Decreto 59.566</em>) ou uma situação do seu cliente.
-            </p>
+            <div className="p-4">
+              <p className="rotulo text-white/40">Experimente</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {["arrendamento", "CCIR", "georreferenciamento", "ITR", "reserva legal", "Decreto 59.566", "leilão"].map((t) => (
+                  <button key={t} onClick={() => setConsulta(t)} className="chip transition hover:border-ouro-400/40 hover:text-white">
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
           {indice && consulta.trim() && !resultados.length && (
-            <p className="p-6 text-sm text-stone-500">Nada encontrado para “{consulta}”. Tente outras palavras.</p>
+            <p className="p-5 text-sm text-white/50">Nada encontrado para “{consulta}”. Tente outras palavras.</p>
           )}
           <ul>
             {resultados.map((r, i) => (
@@ -125,32 +145,33 @@ export default function PaletaBusca() {
                 <button
                   onMouseEnter={() => setAtivo(i)}
                   onClick={() => ir(r)}
-                  className={`flex w-full items-start gap-3 px-4 py-3 text-left ${
-                    i === ativo ? "bg-mata-50" : ""
+                  className={`flex w-full items-start gap-3 rounded-2xl px-3 py-3 text-left transition ${
+                    i === ativo ? "bg-white/[0.07]" : ""
                   }`}
                 >
-                  <Icone nome={r.tipo} className="mt-0.5 h-5 w-5 shrink-0 text-mata-600" />
-                  <span className="min-w-0">
-                    <span className="block font-medium text-stone-900">{r.titulo}</span>
-                    <span className="block text-xs text-stone-500">
+                  <IconeTipo tipo={r.tipo} tamanho="h-9 w-9" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold text-white">{r.titulo}</span>
+                    <span className="block text-[11px] font-medium uppercase tracking-wider text-white/35">
                       {TIPOS[r.tipo].nome} · {getPilar(r.pilar)?.nome}
                     </span>
-                    <span className="mt-0.5 line-clamp-2 block text-sm text-stone-600">{r.resumo}</span>
+                    <span className="mt-1 line-clamp-2 block text-[13px] leading-relaxed text-white/50">{r.resumo}</span>
                   </span>
+                  {i === ativo && <Icone nome="seta" className="mt-2 h-4 w-4 shrink-0 text-ouro-300" />}
                 </button>
               </li>
             ))}
           </ul>
         </div>
 
-        {consulta.trim() && resultados.length > 0 && (
-          <button
-            onClick={verTodos}
-            className="w-full border-t border-stone-200 px-4 py-3 text-left text-sm font-medium text-mata-700 hover:bg-stone-50"
-          >
-            Ver todos os resultados para “{consulta}” →
-          </button>
-        )}
+        <div className="flex items-center justify-between border-t border-white/[0.07] px-5 py-3 text-xs text-white/35">
+          <span className="hidden sm:inline">↑↓ navegar · Enter abrir · Esc fechar</span>
+          {consulta.trim() && resultados.length > 0 && (
+            <button onClick={verTodos} className="font-semibold text-ouro-300 hover:text-ouro-200">
+              Ver todos os resultados →
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

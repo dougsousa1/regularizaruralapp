@@ -310,3 +310,22 @@ export function textoDoFluxo(f: Fluxo): string {
   for (const r of Object.values(f.resultados)) partes.push(r.titulo, r.texto);
   return partes.join(" ");
 }
+
+// ---------- Catálogo leve (para o painel do aluno) ----------
+
+export type ItemCatalogo = ItemResumo & { total?: number };
+
+function contarItens(secoes: SecaoChecklist[]): number {
+  const contar = (itens: ItemChecklist[]): number => itens.reduce((n, i) => n + 1 + contar(i.filhos), 0);
+  return secoes.reduce(
+    (n, s) => n + s.blocos.reduce((m, b) => m + (b.tipo === "itens" ? contar(b.itens) : 0), 0),
+    0,
+  );
+}
+
+export function catalogo(): ItemCatalogo[] {
+  return todosItens().map((i) => ({
+    ...resumo(i),
+    ...(i.tipo === "checklist" ? { total: contarItens(estruturarChecklist(i)) } : {}),
+  }));
+}

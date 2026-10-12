@@ -23,10 +23,13 @@ export default async function Pagina({ params }: Props) {
   if (!pilar || !md) notFound();
   const { html } = renderizar(md.replace(/^\s*# .*\n/, ""), caminhoRevisao(slug));
   return (
-    <div className="container-site max-w-4xl py-8">
+    <div className="container-site max-w-4xl pt-2 lg:pt-0">
       <Trilha partes={[{ href: "/revisao", rotulo: "Painel de revisão" }, { rotulo: pilar.nome }]} />
-      <h1 className="font-serif text-3xl font-semibold text-stone-900">Pontos para revisão — {pilar.nome}</h1>
-      <div className="conteudo-guia mt-8" dangerouslySetInnerHTML={{ __html: html }} />
+      <p className="rotulo">Pontos para revisão</p>
+      <h1 className="titulo-display mt-2 text-3xl sm:text-4xl">{pilar.nome}</h1>
+      <div className="vidro mt-8 px-5 py-2 sm:px-9 sm:py-4">
+        <div className="conteudo-guia" dangerouslySetInnerHTML={{ __html: html }} />
+      </div>
     </div>
   );
 }

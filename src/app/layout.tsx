@@ -1,63 +1,59 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata, Viewport } from "next";
+import { Inter_Tight, Manrope } from "next/font/google";
 import "./globals.css";
-import BotaoBusca from "@/components/BotaoBusca";
+import { AbasCelular, BarraLateral, BarraTopo } from "@/components/Navegacao";
 import PaletaBusca from "@/components/PaletaBusca";
-import MenuCelular from "@/components/MenuCelular";
+import { itensDoPilar, todosItens } from "@/lib/conteudo";
+import { PILARES } from "@/lib/pilares";
+
+const sans = Manrope({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const display = Inter_Tight({
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: { default: "Regulariza Rural — Central de Consulta", template: "%s · Regulariza Rural" },
   description:
-    "Guias práticos, checklists, fluxos de decisão e tabelas de direito agrário e regularização rural para os alunos da mentoria.",
+    "Guias práticos, checklists, fluxos de decisão e tabelas de direito agrário e regularização rural para os alunos do Regulariza Rural.",
   robots: { index: false, follow: false },
+  appleWebApp: { capable: true, title: "Regulariza Rural", statusBarStyle: "black-translucent" },
+  icons: { icon: "/icone-192.png", apple: "/apple-touch-icon.png" },
 };
 
-const NAV = [
-  { href: "/#pilares", rotulo: "Pilares" },
-  { href: "/fluxos", rotulo: "Fluxos de decisão" },
-  { href: "/checklists", rotulo: "Checklists" },
-  { href: "/referencias", rotulo: "Tabelas" },
-];
+export const viewport: Viewport = {
+  themeColor: "#06100c",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const pilares = PILARES.map((p) => ({
+    slug: p.slug,
+    nome: p.nome,
+    icone: p.icone,
+    total: itensDoPilar(p.slug).length,
+  }));
+  const totalEstudo = todosItens().filter((i) => i.tipo === "guia" || i.tipo === "referencia").length;
+
   return (
-    <html lang="pt-BR">
-      <body className="flex min-h-screen flex-col font-sans">
-        <header className="sticky top-0 z-40 border-b border-stone-200 bg-[#fbfaf7]/90 backdrop-blur">
-          <div className="container-site flex h-16 items-center gap-6">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-mata-700 text-sm font-bold text-white">
-                RR
-              </span>
-              <span className="font-semibold leading-tight text-stone-900">
-                Regulariza Rural
-                <span className="block text-[11px] font-normal text-stone-500">Central de consulta</span>
-              </span>
-            </Link>
-            <nav className="hidden flex-1 items-center gap-5 text-sm text-stone-600 md:flex">
-              {NAV.map((n) => (
-                <Link key={n.href} href={n.href} className="hover:text-mata-700">
-                  {n.rotulo}
-                </Link>
-              ))}
-            </nav>
-            <div className="ml-auto flex items-center gap-2 md:ml-0">
-              <BotaoBusca />
-              <MenuCelular itens={NAV} />
+    <html lang="pt-BR" className={`${sans.variable} ${display.variable}`}>
+      <body className="min-h-screen font-sans">
+        <BarraLateral pilares={pilares} totalEstudo={totalEstudo} />
+        <div className="flex min-h-screen flex-col lg:pl-72">
+          <BarraTopo totalEstudo={totalEstudo} />
+          <main className="flex-1 pb-10 lg:pb-12">{children}</main>
+          <footer className="nao-imprimir border-t border-white/[0.06] pb-20 lg:pb-0">
+            <div className="flex flex-col gap-1 px-4 py-6 text-xs text-white/35 sm:px-6 lg:flex-row lg:justify-between lg:px-10">
+              <p>Conteúdo exclusivo para alunos do Regulariza Rural.</p>
+              <p>Material de apoio — confira sempre a legislação vigente antes de agir no caso concreto.</p>
             </div>
-          </div>
-        </header>
-
-        <main className="flex-1">{children}</main>
-
-        <footer className="mt-16 border-t border-stone-200 bg-white">
-          <div className="container-site flex flex-col gap-2 py-8 text-sm text-stone-500 sm:flex-row sm:justify-between">
-            <p>Conteúdo exclusivo para alunos da mentoria. Baseado nas aulas e revisado pela mentora.</p>
-            <p>
-              Material de apoio — confira sempre a legislação vigente antes de agir no caso concreto.
-            </p>
-          </div>
-        </footer>
+          </footer>
+        </div>
+        <AbasCelular />
         <PaletaBusca />
       </body>
     </html>
