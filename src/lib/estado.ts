@@ -139,3 +139,73 @@ if (typeof window !== "undefined") {
   window.addEventListener(EVENTO, subir);
   window.addEventListener("storage", subir);
 }
+
+// ---------- Sincronização com a conta do aluno ----------
+
+export type EstadoCompleto = {
+  favoritos: string[];
+  concluidos: string[];
+  recentes: string[];
+  checklists: Record<string, Record<string, boolean>>;
+};
+
+const PREFIXO_CHECKLIST = "checklist:";
+export const CHAVE_DONO = "rr:usuario";
+
+export function exportarEstado(): EstadoCompleto {
+  const checklists: EstadoCompleto["checklists"] = {};
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k?.startsWith(PREFIXO_CHECKLIST)) {
+        const m = ler<Record<string, boolean>>(k, {});
+        const marcados = Object.fromEntries(Object.entries(m).filter(([, v]) => v));
+        if (Object.keys(marcados).length) checklists[k.slice(PREFIXO_CHECKLIST.length)] = marcados;
+      }
+    }
+  } catch {}
+  return {
+    favoritos: ler<string[]>(FAVORITOS, []),
+    concluidos: ler<string[]>(CONCLUIDOS, []),
+    recentes: ler<string[]>(RECENTES, []),
+    checklists,
+  };
+}
+
+export function importarEstado(e: EstadoCompleto) {
+  gravar(FAVORITOS, e.favoritos);
+  gravar(CONCLUIDOS, e.concluidos);
+  gravar(RECENTES, e.recentes);
+  for (const [id, m] of Object.entries(e.checklists)) gravar(chaveChecklist(id), m);
+}
+
+/** Apaga do aparelho tudo o que é do aluno (ao sair ou trocar de conta). */
+export function limparEstadoLocal() {
+  try {
+    const remover: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && (k.startsWith("rr:") || k.startsWith(PREFIXO_CHECKLIST))) remover.push(k);
+    }
+    remover.forEach((k) => localStorage.removeItem(k));
+  } catch {}
+  window.dispatchEvent(new CustomEvent(EVENTO, { detail: "*" }));
+}
+
+export function aoMudarEstado(fn: (chave: string) => void): () => void {
+  const h = (e: Event) => fn(String((e as CustomEvent).detail ?? ""));
+  window.addEventListener(EVENTO, h);
+  return () => window.removeEventListener(EVENTO, h);
+}
+
+export function juntarEstados(local: EstadoCompleto, remoto: EstadoCompleto): EstadoCompleto {
+  const uniao = (a: string[], b: string[]) => [...new Set([...a, ...b])];
+  const checklists: EstadoCompleto["checklists"] = { ...remoto.checklists };
+  for (const [id, m] of Object.entries(local.checklists)) checklists[id] = { ...(checklists[id] ?? {}), ...m };
+  return {
+    favoritos: uniao(local.favoritos, remoto.favoritos),
+    concluidos: uniao(local.concluidos, remoto.concluidos),
+    recentes: uniao(local.recentes, remoto.recentes).slice(0, 24),
+    checklists,
+  };
+}

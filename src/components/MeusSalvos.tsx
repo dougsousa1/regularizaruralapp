@@ -5,6 +5,7 @@ import type { ItemCatalogo } from "@/lib/conteudo";
 import { useCatalogo } from "@/lib/catalogo-cliente";
 import { useConcluidos, useFavoritos, useMontado, useRecentes } from "@/lib/estado";
 import AnelProgresso from "./AnelProgresso";
+import ContaUsuario from "./ContaUsuario";
 import { CartaoItem } from "./Cartoes";
 import Icone from "./Icone";
 
@@ -33,7 +34,8 @@ export default function MeusSalvos({ totalEstudo }: { totalEstudo: number }) {
   const atual = abas.find((a) => a.id === aba)!;
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 space-y-6">
+      <ContaUsuario variante="cartao" />
       <div className="vidro flex items-center gap-5 p-5 sm:p-6">
         <AnelProgresso total={totalEstudo} tamanho={72} />
         <div>
@@ -45,7 +47,7 @@ export default function MeusSalvos({ totalEstudo }: { totalEstudo: number }) {
         </div>
       </div>
 
-      <div className="mt-6 flex gap-1 rounded-full border border-white/[0.08] bg-white/[0.03] p-1 sm:inline-flex">
+      <div className="flex gap-1 rounded-full border border-white/[0.08] bg-white/[0.03] p-1 sm:inline-flex">
         {abas.map((a) => (
           <button
             key={a.id}
@@ -61,7 +63,7 @@ export default function MeusSalvos({ totalEstudo }: { totalEstudo: number }) {
         ))}
       </div>
 
-      <div className="mt-6">
+      <div>
         {!catalogo ? (
           <div className="grid gap-3 md:grid-cols-2">
             {[0, 1, 2, 3].map((i) => (
@@ -83,7 +85,7 @@ export default function MeusSalvos({ totalEstudo }: { totalEstudo: number }) {
           </div>
         )}
       </div>
-      <p className="mt-6 text-center text-xs text-white/30">Seus salvos e progresso ficam guardados neste aparelho.</p>
+      <p className="text-center text-xs text-white/30">Seus salvos e seu progresso ficam na sua conta e aparecem em qualquer aparelho.</p>
     </div>
   );
 }

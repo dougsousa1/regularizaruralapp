@@ -176,7 +176,7 @@ export default function ChecklistInterativo({
           );
         })}
       </div>
-      <p className="nao-imprimir mt-4 text-center text-xs text-white/30">O progresso fica salvo neste aparelho.</p>
+      <p className="nao-imprimir mt-4 text-center text-xs text-white/30">O progresso fica salvo na sua conta.</p>
     </div>
   );
 }

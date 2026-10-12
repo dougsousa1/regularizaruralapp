@@ -2,10 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import { AbasCelular, BarraLateral, BarraTopo } from "@/components/Navegacao";
-import PaletaBusca from "@/components/PaletaBusca";
-import { itensDoPilar, todosItens } from "@/lib/conteudo";
-import { PILARES } from "@/lib/pilares";
 
 // Fonte da marca. A Louis George Café traz em branco alguns caracteres (º, ª, ², ½, setas...);
 // o unicode-range tira esses da fonte para o navegador desenhá-los com a Manrope.
@@ -46,31 +42,9 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const pilares = PILARES.map((p) => ({
-    slug: p.slug,
-    nome: p.nome,
-    icone: p.icone,
-    total: itensDoPilar(p.slug).length,
-  }));
-  const totalEstudo = todosItens().filter((i) => i.tipo === "guia" || i.tipo === "referencia").length;
-
   return (
     <html lang="pt-BR" className={`${marca.variable} ${apoio.variable}`}>
-      <body className="min-h-screen font-sans">
-        <BarraLateral pilares={pilares} totalEstudo={totalEstudo} />
-        <div className="flex min-h-screen flex-col lg:pl-72">
-          <BarraTopo totalEstudo={totalEstudo} />
-          <main className="flex-1 pb-10 lg:pb-12">{children}</main>
-          <footer className="nao-imprimir border-t border-white/[0.06] pb-20 lg:pb-0">
-            <div className="flex flex-col gap-1 px-4 py-6 text-xs text-white/35 sm:px-6 lg:flex-row lg:justify-between lg:px-10">
-              <p>Conteúdo exclusivo para alunos do Regulariza Rural.</p>
-              <p>Material de apoio — confira sempre a legislação vigente antes de agir no caso concreto.</p>
-            </div>
-          </footer>
-        </div>
-        <AbasCelular />
-        <PaletaBusca />
-      </body>
+      <body className="min-h-screen font-sans">{children}</body>
     </html>
   );
 }

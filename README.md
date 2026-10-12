@@ -42,5 +42,8 @@ em código. O painel `/revisao` reúne os pontos que a mentora precisa confirmar
    parou", checklists em andamento, progresso), páginas por pilar, guias com índice,
    checklists interativos, fluxos de decisão, salvos e painel de revisão. Instalável no
    celular como app (PWA).
-3. Assistente com IA
-4. Modelos de contrato e calculadoras
+3. **Login e alunos (Supabase)**: pronto. Só e-mails liberados no painel `/admin` criam
+   conta; salvos, concluídos e checklists ficam na conta do aluno. Estrutura do banco em
+   `supabase/migrations/`.
+4. Assistente com IA
+5. Modelos de contrato e calculadoras

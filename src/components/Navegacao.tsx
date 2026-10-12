@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AnelProgresso from "./AnelProgresso";
+import ContaUsuario from "./ContaUsuario";
 import Icone from "./Icone";
 import Logo from "./Logo";
 import { abrirBusca } from "./PaletaBusca";
@@ -97,13 +98,9 @@ export function BarraLateral({ pilares, totalEstudo }: { pilares: PilarNav[]; to
             <span className="text-white/45">Guias e tabelas concluídos</span>
           </span>
         </Link>
-        <Link
-          href="/revisao"
-          className="mt-1 flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-white/35 transition hover:text-white/70"
-        >
-          <Icone nome="escudo" className="h-3.5 w-3.5" />
-          Painel de revisão da mentora
-        </Link>
+        <div className="mt-2 border-t border-white/[0.06] pt-2">
+          <ContaUsuario />
+        </div>
       </div>
     </aside>
   );
