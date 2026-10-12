@@ -1,0 +1,87 @@
+id: fluxo-posso-dividir-abaixo-fmp
+titulo: Posso dividir ou registrar área abaixo da FMP?
+pilar: imobiliario
+tipo: fluxo
+resumo: Verifique se a divisão respeita a FMP ou se cabe alguma exceção legal.
+fonte: Aula 01 — Pilar Imobiliário
+revisao: pendente
+inicio: respeita
+
+perguntas:
+  respeita:
+    texto: A área nova E a área remanescente são maiores ou iguais à FMP do município (veja o CCIR)?
+    opcoes:
+      - rotulo: Sim, as duas
+        resultado: pode_dividir
+      - rotulo: Não, alguma fica abaixo
+        proximo: anexacao
+
+  anexacao:
+    texto: A área pequena vai ser anexada ao imóvel de um vizinho confrontante (que ficará acima da FMP)?
+    opcoes:
+      - rotulo: Sim
+        resultado: excecao_anexacao
+      - rotulo: Não
+        proximo: agricultor
+
+  agricultor:
+    texto: O proprietário se enquadra como agricultor familiar (até 4 módulos fiscais, mão de obra e renda predominantemente da família)?
+    opcoes:
+      - rotulo: Sim
+        resultado: excecao_agricultor
+      - rotulo: Não
+        proximo: ordem_publica
+
+  ordem_publica:
+    texto: A área será destinada a comércio (posto, loja, hotel), indústria (barragem, mineração) ou serviço comunitário (escola, igreja, hospital)?
+    opcoes:
+      - rotulo: Sim
+        resultado: excecao_ordem_publica
+      - rotulo: Não
+        proximo: desapropriacao
+
+  desapropriacao:
+    texto: "A área ficou pequena por causa de desapropriação (ex.: estrada cortou a fazenda)?"
+    opcoes:
+      - rotulo: Sim
+        resultado: excecao_desapropriacao
+      - rotulo: Não
+        proximo: urbana
+
+  urbana:
+    texto: A área foi incorporada à zona urbana ou de expansão urbana por lei municipal?
+    opcoes:
+      - rotulo: Sim
+        resultado: excecao_urbana
+      - rotulo: Não
+        resultado: nao_registra
+
+resultados:
+  pode_dividir:
+    titulo: Pode dividir
+    texto: Respeitada a FMP, siga o procedimento de desmembramento (sem autorização do INCRA).
+    links: [desmembramento-remembramento, checklist-desmembramento]
+  excecao_anexacao:
+    titulo: Exceção — anexação ao confrontante (Lei 5.868/72, art. 8º, §4º)
+    texto: Faça o desmembramento e o remembramento ao imóvel vizinho de forma casada. Soma do vizinho e remanescente do vendedor devem respeitar a FMP.
+    links: [fracao-minima-parcelamento, desmembramento-remembramento]
+  excecao_agricultor:
+    titulo: Exceção — agricultor familiar (Lei 11.326/2006, art. 3º)
+    texto: Comprove os requisitos e cite a lei no requerimento ao cartório.
+    links: [fracao-minima-parcelamento]
+  excecao_ordem_publica:
+    titulo: Exceção — interesse de ordem pública (Decreto 62.504/68)
+    texto: "Apresente o projeto da destinação (ex.: posto de gasolina) e faça a comunicação ao INCRA. É possível abrir matrícula autônoma abaixo da FMP."
+    links: [fracao-minima-parcelamento]
+  excecao_desapropriacao:
+    titulo: Exceção — desapropriação
+    texto: O remanescente decorrente de desapropriação pode ser regularizado mesmo abaixo da FMP.
+    links: [fracao-minima-parcelamento]
+  excecao_urbana:
+    titulo: Não se aplica mais a FMP
+    texto: Área urbana segue o lote mínimo da lei municipal/plano diretor. Cancele o CCIR e siga as regras urbanas.
+    links: [parcelamento-chacreamento-loteamento-rural]
+  nao_registra:
+    titulo: Não registra no cartório
+    texto: Sem exceção, o cartório não pode registrar (Lei 5.868/72, art. 8º, §3º). Alternativas — reorganizar a divisão, mudar o zoneamento ou, em casos de usucapião, a via judicial.
+    links: [fracao-minima-parcelamento, parcelamento-chacreamento-loteamento-rural]

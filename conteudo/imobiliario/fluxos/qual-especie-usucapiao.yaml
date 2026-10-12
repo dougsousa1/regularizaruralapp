@@ -1,0 +1,95 @@
+id: qual-especie-usucapiao
+titulo: Qual espécie de usucapião usar?
+pilar: imobiliario
+tipo: fluxo
+resumo: Escolha a espécie de usucapião mais adequada ao caso rural.
+fonte: Aula 03 — Pilar Imobiliário
+revisao: pendente
+inicio: requisitos_comuns
+
+perguntas:
+  requisitos_comuns:
+    texto: A posse é como dono (não é locatário, comodatário ou caseiro), mansa, pacífica e ininterrupta?
+    opcoes:
+      - rotulo: Sim
+        proximo: herdeiro
+      - rotulo: Não
+        resultado: sem_usucapiao
+
+  herdeiro:
+    texto: O possuidor é herdeiro necessário do proprietário registral?
+    opcoes:
+      - rotulo: Sim
+        proximo: tempo_herdeiro
+      - rotulo: Não
+        proximo: tempo
+
+  tempo_herdeiro:
+    texto: Tem posse exclusiva há 15 anos (ou 10, se mora ou fez obras produtivas)?
+    opcoes:
+      - rotulo: Sim
+        resultado: extraordinaria
+      - rotulo: Não
+        resultado: aguardar
+
+  tempo:
+    texto: Há quanto tempo dura a posse?
+    opcoes:
+      - rotulo: 15 anos ou mais
+        resultado: extraordinaria
+      - rotulo: Entre 10 e 15 anos
+        proximo: dez_anos
+      - rotulo: Entre 5 e 10 anos
+        proximo: cinco_anos
+      - rotulo: Menos de 5 anos
+        resultado: aguardar
+
+  dez_anos:
+    texto: Mora no imóvel ou fez obras/serviços produtivos? Ou tem justo título e boa-fé?
+    opcoes:
+      - rotulo: Mora ou produz no imóvel
+        resultado: extraordinaria_reduzida
+      - rotulo: Tem justo título e boa-fé
+        resultado: ordinaria
+      - rotulo: Nenhum dos dois
+        resultado: aguardar
+
+  cinco_anos:
+    texto: Qual destas situações se aplica?
+    opcoes:
+      - rotulo: Área rural de até 50 ha, mora e produz, sem outro imóvel
+        resultado: especial_rural
+      - rotulo: Justo título registrado na matrícula, com boa-fé
+        resultado: tabular
+      - rotulo: Nenhuma
+        resultado: aguardar
+
+resultados:
+  sem_usucapiao:
+    titulo: Não cabe usucapião
+    texto: Sem animus domini ou com posse contestada com sucesso, não há usucapião. Avalie adjudicação, inventário ou negociação.
+    links: [usucapiao, adjudicacao-compulsoria]
+  extraordinaria:
+    titulo: Usucapião extraordinária (15 anos)
+    texto: A mais usada. Basta provar a posse qualificada no período.
+    links: [usucapiao, prazos-usucapiao]
+  extraordinaria_reduzida:
+    titulo: Usucapião extraordinária reduzida (10 anos)
+    texto: Comprove moradia habitual ou obras/serviços produtivos.
+    links: [usucapiao, prazos-usucapiao]
+  ordinaria:
+    titulo: Usucapião ordinária (10 anos)
+    texto: Justo título (promessa, contrato, procuração) e prova da boa-fé.
+    links: [usucapiao, prazos-usucapiao]
+  especial_rural:
+    titulo: Usucapião especial rural (5 anos)
+    texto: Até 50 ha, moradia e trabalho. Abaixo da FMP só judicialmente.
+    links: [usucapiao, prazos-usucapiao]
+  tabular:
+    titulo: Usucapião tabular (5 anos)
+    texto: Justo título registrado (ainda que depois cancelado) e boa-fé.
+    links: [usucapiao, prazos-usucapiao]
+  aguardar:
+    titulo: Ainda não completou o prazo
+    texto: Some posses de antecessores, se possível. Enquanto isso, organize as provas de posse (2 por ano).
+    links: [usucapiao]
