@@ -147,6 +147,97 @@
     @apply font-semibold text-white;
   }
 
+
+  /* ---------- Editor de modelos ---------- */
+  .documento-editavel {
+    font-family: Tahoma, "Segoe UI", Verdana, Geneva, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #1c1917;
+    outline: none;
+    caret-color: #92400e;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .documento-editavel p {
+    margin: 0 0 6pt;
+    min-height: 1.5em;
+  }
+  .documento-editavel ::selection {
+    background: rgba(212, 162, 83, 0.35);
+    color: inherit;
+  }
+  .documento-editavel table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6pt 0 10pt;
+    table-layout: fixed;
+  }
+  .documento-editavel td,
+  .documento-editavel th {
+    border: 1px solid #a8a29e;
+    padding: 4pt 6pt;
+    vertical-align: top;
+  }
+  .documento-editavel td p,
+  .documento-editavel th p {
+    margin: 0;
+  }
+  .campo {
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.15s, box-shadow 0.15s;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .campo-vazio {
+    background: #fdf3dc;
+    color: #8a5a12;
+    padding: 0 3px;
+    box-shadow: inset 0 0 0 1px #e7c27d;
+    font-size: 0.92em;
+  }
+  .campo-vazio:hover {
+    background: #fbe6b8;
+  }
+  .campo-preenchido {
+    background: #f4f8f6;
+    box-shadow: inset 0 -1.5px 0 #6fb39f;
+  }
+  .campo-preenchido:hover {
+    background: #e3f1ec;
+  }
+  .campo-ativo,
+  .campo-selecionado {
+    box-shadow: 0 0 0 2px #d4a253 !important;
+    background: #fff4dc !important;
+  }
+  .campo-nota {
+    display: inline-block;
+    margin: 0 2px;
+    vertical-align: 1px;
+  }
+  .campo-nota-botao {
+    border-radius: 999px;
+    background: #ede9fe;
+    color: #5b21b6;
+    padding: 0 7px;
+    font-family: system-ui, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 16px;
+  }
+  .campo-legenda {
+    display: inline-block;
+    width: 22px;
+    height: 10px;
+    border-radius: 3px;
+    background: #fdf3dc;
+    box-shadow: inset 0 0 0 1px #e7c27d;
+  }
+
   .sem-barra {
     scrollbar-width: none;
   }
@@ -182,5 +273,49 @@
   h1,
   h2 {
     color: #1c1917 !important;
+  }
+}
+
+/* PDF do documento: imprime só a folha */
+@media print {
+  @page {
+    size: A4;
+    margin: 20mm 20mm 20mm 25mm;
+  }
+  html.imprimir-documento body {
+    background: white !important;
+  }
+  html.imprimir-documento footer,
+  html.imprimir-documento .folha-documento .nao-imprimir,
+  html.imprimir-documento .campo-nota {
+    display: none !important;
+  }
+  html.imprimir-documento body > div,
+  html.imprimir-documento main,
+  html.imprimir-documento .area-folha {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+  }
+  html.imprimir-documento .folha-documento {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  html.imprimir-documento .campo {
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-size: inherit !important;
+  }
+  html.imprimir-documento .campo-vazio::before {
+    content: "[";
+  }
+  html.imprimir-documento .campo-vazio::after {
+    content: "]";
   }
 }
