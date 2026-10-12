@@ -51,7 +51,7 @@
     @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-ouro-400;
   }
   .titulo-display {
-    @apply font-display font-extrabold tracking-[-0.012em] text-white;
+    @apply font-display font-bold tracking-[0.005em] text-white;
   }
   .botao {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition duration-200 active:scale-[0.98];
@@ -74,9 +74,9 @@
 
   /* Corpo dos guias */
   .conteudo-guia {
-    @apply prose prose-invert max-w-none text-[15.5px] leading-7
+    @apply prose prose-invert max-w-none text-[16px] leading-[1.8]
       prose-p:text-white/75 prose-li:text-white/75
-      prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-bold prose-headings:tracking-[-0.01em] prose-headings:text-white
+      prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-bold prose-headings:tracking-[0.005em] prose-headings:text-white
       prose-h2:mt-12 prose-h2:text-[1.35rem]
       prose-h3:text-lg prose-h3:text-ouro-100
       prose-a:font-medium prose-a:text-ouro-300 prose-a:no-underline hover:prose-a:text-ouro-200

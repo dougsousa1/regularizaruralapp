@@ -109,7 +109,7 @@ export default function ChecklistInterativo({
               <span className="text-sm font-semibold text-white">
                 {feitos} <span className="font-normal text-white/40">de {todas.length} itens</span>
               </span>
-              <span className="font-display text-lg font-extrabold text-ouro-200">{pct}%</span>
+              <span className="font-display text-lg font-bold text-ouro-200">{pct}%</span>
             </div>
             <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/10">
               <div className="h-full rounded-full bg-gradient-to-r from-ouro-300 to-ouro-500 transition-all duration-500" style={{ width: `${pct}%` }} />

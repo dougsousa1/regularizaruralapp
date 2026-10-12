@@ -43,7 +43,7 @@ export default async function PaginaPilar({ params }: Props) {
       <section className="relative isolate overflow-hidden rounded-[28px] border border-white/[0.08] bg-gradient-to-br from-noite-800 via-noite-900 to-noite-950 p-6 shadow-2xl shadow-black/40 sm:p-10 animate-surgir">
         <div className="pointer-events-none absolute -right-20 -top-28 -z-10 h-80 w-80 rounded-full bg-ouro-400/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-32 left-10 -z-10 h-72 w-72 rounded-full bg-mata-500/15 blur-3xl" />
-        <span className="pointer-events-none absolute -right-3 -top-8 -z-10 select-none font-display text-[8rem] font-black leading-none text-white/[0.035] sm:text-[12rem] lg:right-1/3">
+        <span className="pointer-events-none absolute -right-3 -top-8 -z-10 select-none font-display text-[8rem] font-bold leading-none text-white/[0.035] sm:text-[12rem] lg:right-1/3">
           {String(numero).padStart(2, "0")}
         </span>
 

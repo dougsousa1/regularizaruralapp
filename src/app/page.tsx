@@ -66,7 +66,7 @@ export default function Inicio() {
           <dl className="mt-8 grid max-w-lg grid-cols-4 gap-2">
             {numeros.map(([n, r]) => (
               <div key={r} className="rounded-xl border border-white/[0.07] bg-white/[0.04] px-2 py-2.5 text-center backdrop-blur sm:px-3">
-                <dd className="font-display text-lg font-extrabold text-white sm:text-2xl">{n}</dd>
+                <dd className="font-display text-lg font-bold text-white sm:text-2xl">{n}</dd>
                 <dt className="text-[10px] leading-tight text-white/45 sm:text-[11px]">{r}</dt>
               </div>
             ))}

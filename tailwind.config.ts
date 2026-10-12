@@ -41,8 +41,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "var(--font-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-marca)", "var(--font-apoio)", "system-ui", "sans-serif"],
+        display: ["var(--font-marca)", "var(--font-apoio)", "system-ui", "sans-serif"],
       },
       keyframes: {
         surgir: {
