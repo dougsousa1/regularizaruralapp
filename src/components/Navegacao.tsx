@@ -13,6 +13,7 @@ export type PilarNav = { slug: string; nome: string; icone: string; total: numbe
 const PRINCIPAL = [
   { href: "/", rotulo: "Início", icone: "inicio" },
   { href: "/fluxos", rotulo: "Fluxos de decisão", icone: "fluxo" },
+  { href: "/modelos", rotulo: "Modelos de documentos", icone: "contrato" },
   { href: "/checklists", rotulo: "Checklists", icone: "checklist" },
   { href: "/referencias", rotulo: "Tabelas e glossários", icone: "referencia" },
   { href: "/salvos", rotulo: "Meus salvos", icone: "salvo" },
@@ -108,7 +109,7 @@ export function BarraLateral({ pilares, totalEstudo }: { pilares: PilarNav[]; to
 
 export function BarraTopo({ totalEstudo }: { totalEstudo: number }) {
   return (
-    <header className="nao-imprimir sticky top-0 z-30 border-b border-white/[0.06] bg-noite-900/75 backdrop-blur-xl lg:border-transparent lg:bg-transparent lg:backdrop-blur-none">
+    <header className="nao-imprimir sticky top-0 z-30 lg:pointer-events-none border-b border-white/[0.06] bg-noite-900/75 backdrop-blur-xl lg:border-transparent lg:bg-transparent lg:backdrop-blur-none">
       <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:h-14 lg:justify-end lg:px-10">
         <div className="lg:hidden">
           <Logo compacto />
@@ -134,7 +135,7 @@ const ABAS = [
   { href: "/", rotulo: "Início", icone: "inicio" },
   { href: "/pilares", rotulo: "Pilares", icone: "grade" },
   { href: "#buscar", rotulo: "Buscar", icone: "busca" },
-  { href: "/checklists", rotulo: "Checklists", icone: "checklist" },
+  { href: "/modelos", rotulo: "Modelos", icone: "contrato" },
   { href: "/salvos", rotulo: "Salvos", icone: "salvo" },
 ];
 
@@ -146,7 +147,8 @@ export function AbasCelular() {
         {ABAS.map((a) => {
           const sel =
             a.href !== "#buscar" &&
-            (ativo(caminho, a.href) || (a.href === "/pilares" && caminho.startsWith("/pilar/")));
+            (ativo(caminho, a.href) || (a.href === "/pilares" && caminho.startsWith("/pilar/")) ||
+              (a.href === "/modelos" && caminho.startsWith("/escritorio")));
           const conteudo = (
             <>
               {a.href === "#buscar" ? (

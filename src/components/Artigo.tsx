@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getItem, itensDoPilar, relacionadosDe, renderizar, rota } from "@/lib/conteudo";
+import { modelosRelacionados } from "@/lib/modelos";
 import { getPilar, TIPOS, type Tipo } from "@/lib/pilares";
 import { BarraLeitura, BotaoConcluir, BotaoCopiar, BotaoImprimir, BotaoSalvar, Indice, RegistrarVisita } from "./Acoes";
 import { IconeTipo, SeloRevisao, SeloTipo, Trilha } from "./Cartoes";
@@ -43,6 +44,7 @@ export function Cabecalho({ id, tipo, concluivel = true }: { id: string; tipo: T
 export function Lateral({ id, secoes }: { id: string; secoes?: { id: string; titulo: string }[] }) {
   const item = getItem(id)!;
   const rel = relacionadosDe(item);
+  const modelos = modelosRelacionados(id);
   return (
     <aside className="nao-imprimir space-y-5 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto lg:pb-8 sem-barra">
       {secoes && secoes.length > 2 && (
@@ -61,6 +63,26 @@ export function Lateral({ id, secoes }: { id: string; secoes?: { id: string; tit
               <li key={b} className="flex gap-2">
                 <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-ouro-400" />
                 {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {modelos.length > 0 && (
+        <div className="vidro p-2">
+          <p className="rotulo px-3 pb-1 pt-3 text-white/40">Modelos para usar</p>
+          <ul>
+            {modelos.slice(0, 6).map((m) => (
+              <li key={m.id}>
+                <Link href={`/modelos/${m.id}`} className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-white/[0.05]">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl border border-emerald-300/20 bg-emerald-400/10 text-emerald-200">
+                    <Icone nome="contrato" className="h-[16px] w-[16px]" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="line-clamp-2 text-[13px] font-semibold leading-snug text-white/85 group-hover:text-white">{m.titulo}</span>
+                    <span className="text-[11px] text-white/35">Abrir e preencher</span>
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
