@@ -12,8 +12,7 @@ Fonte: transcrições completas das **4 aulas** do pilar, lidas na íntegra:
 1. **Precedente do STJ sobre antecessores** (ICMS, alienações sucessivas): a base cita
    o REsp 1.141.990/PR (Tema 290). Confirmar se é o caso mostrado na aula.
 2. **Lei 14.825/2024:** confirmar a redação do dispositivo incluído na Lei 13.097/2015.
-3. **Foreiro:** a aula fala em "13% da União / 87% do particular". A regra usual da
-   SPU é 17% de domínio direto e 83% de domínio útil. Qual percentual exibir?
+3. **Foreiro:** resolvido — a base adota 83% (domínio útil) e 17% (domínio direto), conforme a aula de terrenos de marinha.
 4. **Estrangeiro:**
    - regra do projeto de exploração para pessoa física (a aula cita aprovação acima
      de 20 MEI);

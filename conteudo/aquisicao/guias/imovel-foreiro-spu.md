@@ -35,9 +35,10 @@ Em área rural é **raro**, mas acontece — e quando acontece custa caro. Peça
 O foro não é só da União: há foro **municipal**, de **igrejas e confrarias** (comum no
 Nordeste e no RJ) e até da **família imperial** (Petrópolis).
 
-> **Conferir:** a aula descreve o foreiro como "13% da União e 87% do particular". Na
-> regra usual da SPU, o laudêmio e a remição se calculam sobre o domínio pleno, e o
-> domínio direto corresponde a 17%. Confirmar o percentual a ser exibido.
+**Percentuais:** no aforamento, o foreiro tem **83%** do domínio (domínio útil) e a União
+**17%** (domínio direto). A **remição** consolida o domínio pleno pagando os 17% (aula de
+terrenos de marinha, pilar Temas Especiais). Na oficina de certidões, a proporção foi citada
+como "13% e 87%".
 
 ## Como identificar
 

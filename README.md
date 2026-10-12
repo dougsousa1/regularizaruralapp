@@ -12,10 +12,16 @@ referência e um assistente com IA treinado no conteúdo da mentora.
 
 ## Andamento
 
-1. **Base de conhecimento** (em andamento)
-   - Contratos Agrários: primeira versão pronta, aguardando revisão
-     ([pontos de revisão](conteudo/contratos/REVISAO.md))
-   - Demais pilares: a fazer
+1. **Base de conhecimento**: primeira versão pronta nos 7 pilares, com 142 itens
+   (guias, checklists, fluxos de decisão e referências). Aguarda revisão jurídica da
+   mentora. Os pontos a confirmar de cada pilar estão nos arquivos `REVISAO.md`:
+   - [Contratos Agrários](conteudo/contratos/REVISAO.md)
+   - [Imobiliário](conteudo/imobiliario/REVISAO.md)
+   - [Aquisição de Imóveis](conteudo/aquisicao/REVISAO.md)
+   - [Cadastros](conteudo/cadastros/REVISAO.md)
+   - [Fiscal](conteudo/fiscal/REVISAO.md)
+   - [Ambiental](conteudo/ambiental/REVISAO.md)
+   - [Temas Especiais](conteudo/temas-especiais/REVISAO.md)
 2. Plataforma web (busca, guias, checklists interativos, fluxos)
 3. Assistente com IA
 4. Modelos de contrato e calculadoras

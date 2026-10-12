@@ -26,7 +26,7 @@ conteudo/
 | Fiscal | ✅ Primeira versão — aguardando revisão jurídica |
 | Ambiental | ✅ Primeira versão — aguardando revisão jurídica |
 | Cadastros | ✅ Primeira versão — aguardando revisão jurídica |
-| Temas Especiais (holding, crédito rural, carbono…) | ⏳ A fazer |
+| Temas Especiais (holding, crédito rural, mineração, carbono, previdência rural, possessórias, terreno de marinha, precificação) | ✅ Primeira versão — aguardando revisão jurídica |
 
 ## Formato dos arquivos
 
