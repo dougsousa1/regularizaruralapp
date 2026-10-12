@@ -225,7 +225,7 @@ export default function EditorModelo({ modelo }: { modelo: Modelo }) {
       <div className="flex min-h-[calc(100vh-4rem)] flex-col lg:min-h-screen">
         {/* Barra superior */}
         <div className="nao-imprimir sticky top-16 z-20 border-b border-white/[0.07] bg-noite-900/90 backdrop-blur-xl lg:top-0">
-          <div className="flex flex-wrap items-center gap-3 px-4 py-3 lg:px-6">
+          <div className="flex flex-wrap items-center gap-3 px-5 py-3 lg:px-6">
             <Link href="/modelos" className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 text-white/60 hover:text-white" aria-label="Voltar aos modelos">
               <Icone nome="voltar" className="h-4 w-4" />
             </Link>
@@ -257,7 +257,7 @@ export default function EditorModelo({ modelo }: { modelo: Modelo }) {
               </button>
             </div>
           </div>
-          <div className="flex gap-1 px-4 pb-2 lg:hidden">
+          <div className="flex gap-1 px-5 pb-2 lg:hidden">
             {(["documento", "dados"] as const).map((a) => (
               <button
                 key={a}
@@ -287,7 +287,7 @@ export default function EditorModelo({ modelo }: { modelo: Modelo }) {
 
           {/* Documento */}
           <div className={`min-w-0 flex-1 ${aba === "documento" ? "block" : "hidden"} lg:block`}>
-            <div className="nao-imprimir z-10 flex lg:sticky flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] bg-noite-900/80 px-4 py-1.5 backdrop-blur lg:top-[73px] lg:px-6">
+            <div className="nao-imprimir z-10 flex lg:sticky flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] bg-noite-900/80 px-5 py-1.5 backdrop-blur lg:top-[73px] lg:px-6">
               <BarraFerramentas editor={editor} />
               <div className="flex items-center gap-3 text-xs text-white/45">
                 <span className="hidden items-center gap-1.5 sm:flex">
@@ -298,8 +298,8 @@ export default function EditorModelo({ modelo }: { modelo: Modelo }) {
                 </button>
               </div>
             </div>
-            <div className="area-folha px-2 py-6 sm:px-6 lg:py-10">
-              <div className="folha-documento mx-auto w-full max-w-[210mm] rounded-sm bg-white px-6 py-10 text-stone-900 shadow-2xl shadow-black/50 sm:px-[20mm] sm:py-[22mm]">
+            <div className="area-folha px-5 py-6 sm:px-6 lg:py-10">
+              <div className="folha-documento mx-auto w-full max-w-[210mm] rounded-sm bg-white px-5 py-8 text-stone-900 shadow-2xl shadow-black/50 sm:px-[20mm] sm:py-[22mm]">
                 <CabecalhoFolha escritorio={escritorio} logo={logo} />
                 <EditorContent editor={editor} />
               </div>

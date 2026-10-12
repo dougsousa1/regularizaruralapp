@@ -110,7 +110,7 @@ export function BarraLateral({ pilares, totalEstudo }: { pilares: PilarNav[]; to
 export function BarraTopo({ totalEstudo }: { totalEstudo: number }) {
   return (
     <header className="nao-imprimir sticky top-0 z-30 lg:pointer-events-none border-b border-white/[0.06] bg-noite-900/75 backdrop-blur-xl lg:border-transparent lg:bg-transparent lg:backdrop-blur-none">
-      <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:h-14 lg:justify-end lg:px-10">
+      <div className="flex h-16 items-center gap-3 px-5 sm:px-6 lg:h-14 lg:justify-end lg:px-10">
         <div className="lg:hidden">
           <Logo compacto />
         </div>
