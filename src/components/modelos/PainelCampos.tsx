@@ -65,7 +65,7 @@ export default function PainelCampos({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="border-b border-white/[0.07] p-4">
+      <div className="border-b border-white/[0.07] p-5">
         <div className="flex items-baseline justify-between">
           <p className="font-semibold text-white">Dados do documento</p>
           <p className="text-sm text-white/50">
@@ -96,7 +96,7 @@ export default function PainelCampos({
         )}
       </div>
 
-      <div className="flex-1 space-y-6 overflow-y-auto p-4 sem-barra">
+      <div className="flex-1 space-y-6 overflow-y-auto p-5 sem-barra">
         {notas.length > 0 && !q && !soPendentes && (
           <div className="rounded-2xl border border-ouro-400/25 bg-ouro-400/[0.07] p-3">
             <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-ouro-300">

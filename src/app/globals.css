@@ -33,7 +33,21 @@
 
 @layer components {
   .container-site {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10;
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-10;
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+  @screen sm {
+    .container-site {
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+  }
+  @screen lg {
+    .container-site {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
   }
   .vidro {
     @apply rounded-2xl border border-white/[0.08] bg-white/[0.035] shadow-vidro backdrop-blur-xl;
