@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+body {
+  @apply bg-[#fbfaf7] text-stone-800 antialiased;
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+
+  /* Corpo dos guias */
+  .conteudo-guia {
+    @apply prose prose-stone max-w-none
+      prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:text-stone-900
+      prose-h2:mt-10 prose-h2:border-b prose-h2:border-stone-200 prose-h2:pb-2 prose-h2:text-xl
+      prose-h3:text-lg
+      prose-a:text-mata-700 prose-a:underline-offset-2 hover:prose-a:text-mata-900
+      prose-strong:text-stone-900
+      prose-li:my-0.5
+      prose-table:my-0 prose-th:bg-stone-100 prose-th:px-3 prose-th:py-2 prose-td:px-3 prose-td:py-2
+      prose-th:text-left prose-th:font-semibold;
+  }
+  .conteudo-guia .tabela {
+    @apply my-6 overflow-x-auto rounded-lg border border-stone-200 bg-white;
+  }
+  .conteudo-guia .tabela table {
+    @apply w-full text-sm;
+  }
+  .conteudo-guia .tabela tbody tr {
+    @apply border-stone-100;
+  }
+  .conteudo-guia blockquote.destaque {
+    @apply not-italic rounded-r-lg border-l-4 border-mata-500 bg-mata-50 px-4 py-1 font-normal text-stone-700;
+  }
+  .conteudo-guia blockquote.aviso-conferir {
+    @apply not-italic rounded-r-lg border-l-4 border-terra-400 bg-terra-50 px-4 py-1 text-sm font-normal text-terra-900;
+  }
+  .conteudo-guia blockquote p::before,
+  .conteudo-guia blockquote p::after {
+    content: none;
+  }
+  .conteudo-guia code {
+    @apply rounded bg-stone-100 px-1 py-0.5 text-[0.85em] font-normal before:content-none after:content-none;
+  }
+
+  .nota-checklist {
+    @apply prose prose-sm prose-stone max-w-none prose-a:text-mata-700;
+  }
+  .nota-checklist blockquote {
+    @apply not-italic rounded-r-lg border-l-4 border-terra-400 bg-terra-50 px-4 py-1 font-normal text-terra-900;
+  }
+  .nota-checklist blockquote p::before,
+  .nota-checklist blockquote p::after {
+    content: none;
+  }
+  .texto-item a {
+    @apply text-mata-700 underline underline-offset-2;
+  }
+}
+
+@media print {
+  header,
+  footer,
+  .nao-imprimir {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  .conteudo-guia a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
