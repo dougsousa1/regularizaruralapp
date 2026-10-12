@@ -1,0 +1,56 @@
+id: fluxo-preciso-de-ada
+titulo: Preciso entregar o ADA neste ano?
+pilar: cadastros
+tipo: fluxo
+resumo: Aplica a Lei 14.932/2024 para saber se o CAR basta ou se o ADA ainda é necessário para deduzir áreas ambientais no ITR.
+fonte: Aula 01 — Pilar Cadastros
+revisao: pendente
+inicio: deduzir
+
+perguntas:
+  deduzir:
+    texto: O cliente vai deduzir áreas ambientais (APP, reserva legal, servidão ambiental etc.) da área tributável do ITR?
+    opcoes:
+      - rotulo: Sim
+        proximo: tem_car
+      - rotulo: Não, vai tributar a área cheia
+        resultado: sem_ada
+
+  tem_car:
+    texto: O imóvel tem CAR inscrito?
+    opcoes:
+      - rotulo: Sim
+        proximo: car_valido
+      - rotulo: Não
+        resultado: ada_obrigatorio
+
+  car_valido:
+    texto: Qual a situação do CAR?
+    opcoes:
+      - rotulo: Ativo (em análise ou validado)
+        resultado: car_basta
+      - rotulo: Cancelado, invalidado ou com pendência que o tornou inativo
+        resultado: ada_obrigatorio
+
+resultados:
+  sem_ada:
+    titulo: ADA não é necessário
+    texto: >
+      Não há multa específica por não entregar o ADA. Sem dedução de área ambiental,
+      o fisco não é lesado. Lembre que o CAR continua obrigatório por lei.
+    links: [ada-e-car-nos-cadastros]
+
+  car_basta:
+    titulo: O CAR basta
+    texto: >
+      Pela Lei 14.932/2024, informe o número do recibo do CAR na declaração do ITR.
+      As áreas declaradas precisam bater com o CAR — o fisco cruza os dados.
+    links: [ada-e-car-nos-cadastros]
+
+  ada_obrigatorio:
+    titulo: Entregue o ADA (até 30 de setembro)
+    texto: >
+      Sem CAR ativo, o ADA continua obrigatório para deduzir as áreas ambientais.
+      Prazo de 1º de janeiro a 30 de setembro; retificação até 31 de dezembro; não
+      existe ADA retroativo. Regularize também o CAR.
+    links: [ada-e-car-nos-cadastros]

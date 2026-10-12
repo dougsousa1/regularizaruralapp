@@ -1,0 +1,90 @@
+id: fluxo-uso-consolidado-app
+titulo: Esta ocupação em APP é uso consolidado?
+pilar: ambiental
+tipo: fluxo
+resumo: Verifica os requisitos do art. 61-A e indica se há faixa a recompor e de quanto.
+fonte: Aulas 03 e 05 — Pilar Ambiental
+revisao: pendente
+inicio: data
+
+perguntas:
+  data:
+    texto: A atividade ou construção na APP já existia em 22/07/2008?
+    ajuda: Prove com imagem de satélite da data (Google Earth). Pode ter sido feita pelo dono anterior. Pousio de até 5 anos não interrompe.
+    opcoes:
+      - rotulo: Sim, com prova
+        proximo: atividade
+      - rotulo: Não, é posterior
+        resultado: nao_consolidado
+      - rotulo: Não sei
+        resultado: provar
+
+  atividade:
+    texto: A ocupação é atividade agrossilvipastoril, de ecoturismo ou turismo rural (ou estrutura ligada a ela)?
+    opcoes:
+      - rotulo: Sim
+        proximo: car_pra
+      - rotulo: "Não (ex.: uso urbano, residência sem atividade rural)"
+        resultado: urbano_ou_outro
+
+  car_pra:
+    texto: O imóvel está no CAR e aderiu (ou pode aderir) ao PRA?
+    opcoes:
+      - rotulo: Sim
+        proximo: tipo_app
+      - rotulo: Não
+        resultado: regularizar_car
+
+  tipo_app:
+    texto: Que tipo de APP é?
+    opcoes:
+      - rotulo: Curso d'água, nascente, vereda ou lago/lagoa natural
+        resultado: recompor_faixa
+      - rotulo: Encosta, topo de morro, altitude, borda de chapada
+        resultado: consolidado_sem_recompor
+
+resultados:
+  nao_consolidado:
+    titulo: Não é uso consolidado
+    texto: >
+      Ocupação posterior a 22/07/2008 segue a regra geral: faixa cheia de APP, recomposição e
+      risco nas três esferas. Avalie autorização (utilidade pública, interesse social, baixo
+      impacto) ou regularização via termo de compromisso.
+    links: [app-e-reserva-legal, responsabilidade-ambiental]
+
+  provar:
+    titulo: Levante a prova primeiro
+    texto: >
+      Abra o histórico do Google Earth em 22/07/2008 e compre imagens de anos intermediários se
+      preciso. Imagem de satélite é a melhor prova; notas fiscais ajudam.
+    links: [uso-consolidado-marco-2008]
+
+  urbano_ou_outro:
+    titulo: Fora do art. 61-A
+    texto: >
+      O art. 61-A só mantém atividades agrossilvipastoris, ecoturismo e turismo rural. Em área
+      urbana, avalie a REURB e o entendimento de aplicação do Código Florestal (Conferir STJ
+      Tema 1.010 e Lei 14.285/2021).
+    links: [uso-consolidado-marco-2008]
+
+  regularizar_car:
+    titulo: Faça o CAR e verifique o PRA
+    texto: >
+      CAR e adesão ao PRA são requisitos do uso consolidado. Confira os prazos vigentes (Lei
+      14.595/2023 — 1 ano após a notificação da análise do CAR).
+    links: [car-cadastro-ambiental-rural, checklist-car]
+
+  recompor_faixa:
+    titulo: Consolidado, com recomposição parcial
+    texto: >
+      Mantém-se a atividade e as construções; recompõe-se só a faixa mínima pelo tamanho do
+      imóvel em 22/07/2008 (ex.: rio — 5, 8 ou 15 m; nascente — 15 m). Se a faixa inteira está
+      ocupada pela atividade consolidada, há tese de que nada se recompõe.
+    links: [tabela-recomposicao-app, uso-consolidado-marco-2008]
+
+  consolidado_sem_recompor:
+    titulo: Consolidado, sem recomposição
+    texto: >
+      Cumpridos os 5 requisitos, as demais APPs ficam consolidadas sem faixa a recompor. Não se
+      pode ampliar a ocupação.
+    links: [uso-consolidado-marco-2008]

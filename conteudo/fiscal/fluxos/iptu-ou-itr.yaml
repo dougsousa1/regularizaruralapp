@@ -1,0 +1,77 @@
+id: fluxo-iptu-ou-itr
+titulo: Este imóvel paga IPTU ou ITR?
+pilar: fiscal
+tipo: fluxo
+resumo: Aplica a regra da destinação (CTN 32 x DL 57/66) para saber se o município pode cobrar IPTU e como reagir.
+fonte: Aulas 01 e 03 — Pilar Fiscal
+revisao: pendente
+inicio: zona
+
+perguntas:
+  zona:
+    texto: Pela certidão de zoneamento, o imóvel (ou parte dele) está em zona urbana ou de expansão urbana?
+    opcoes:
+      - rotulo: Não, está em zona rural
+        proximo: destinacao_rural_zona
+      - rotulo: Sim
+        proximo: destinacao
+
+  destinacao_rural_zona:
+    texto: "Há na área atividade não rural comercial (ex.: usina solar que vende energia, loteamento, comércio)?"
+    opcoes:
+      - rotulo: Não
+        resultado: itr
+      - rotulo: Sim
+        resultado: risco_iptu_atividade
+
+  destinacao:
+    texto: A área é comprovadamente usada em exploração agrícola, pecuária, extrativa vegetal ou agroindustrial?
+    ajuda: Só pasto, sem animais, não comprova destinação rural.
+    opcoes:
+      - rotulo: Sim
+        resultado: defesa_destinacao
+      - rotulo: Não (área sem uso ou com uso urbano)
+        proximo: melhoramentos
+
+  melhoramentos:
+    texto: O local tem pelo menos dois melhoramentos (calçamento, água, esgoto, iluminação, escola ou posto a até 3 km)?
+    opcoes:
+      - rotulo: Sim
+        resultado: iptu_devido
+      - rotulo: Não
+        resultado: defesa_melhoramentos
+
+resultados:
+  itr:
+    titulo: ITR
+    texto: Zona rural com destinação rural paga ITR. Mantenha CCIR, CAFIR, CAR e ITR em dia.
+    links: [itr-conceitos]
+
+  risco_iptu_atividade:
+    titulo: Risco de IPTU pela destinação não rural
+    texto: >
+      Usina solar comercial não é destinação rural e o município pode cobrar IPTU. Limite a
+      cobrança à área efetivamente usada/edificada, prefira cessão de superfície com
+      matrícula própria e preveja no contrato que o IPTU é do locatário.
+    links: [iptu-indevido-area-rural, cessao-direito-superficie]
+
+  defesa_destinacao:
+    titulo: Cabe defesa pela destinação rural
+    texto: >
+      Prevalece a destinação (DL 57/66 e STJ). Faça a defesa administrativa com ata notarial
+      com diligência in loco e peça a certidão de não incidência ao final.
+    links: [iptu-indevido-area-rural, checklist-defesa-iptu]
+
+  iptu_devido:
+    titulo: IPTU provavelmente devido
+    texto: >
+      Zona urbana, com melhoramentos e sem destinação rural comprovada. Se o cliente quiser
+      voltar ao ITR, oriente a dar destinação rural efetiva (gado, lavoura) e documentá-la.
+    links: [iptu-indevido-area-rural]
+
+  defesa_melhoramentos:
+    titulo: Cabe defesa pela falta de melhoramentos
+    texto: >
+      Sem dois melhoramentos do CTN, art. 32, não há base para o IPTU. Comprove com ata
+      notarial e, se possível, dê destinação rural à área.
+    links: [iptu-indevido-area-rural, checklist-defesa-iptu]

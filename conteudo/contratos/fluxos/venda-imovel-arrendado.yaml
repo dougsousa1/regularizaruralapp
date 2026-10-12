@@ -1,0 +1,98 @@
+id: venda-imovel-arrendado
+titulo: Vou vender um imóvel arrendado — o que fazer?
+pilar: contratos
+tipo: fluxo
+resumo: Ordem correta das notificações de preferência antes de vender imóvel rural arrendado.
+fonte: Aula 01 — Pilar Contratos Agrários
+revisao: pendente
+inicio: proposta
+
+perguntas:
+  proposta:
+    texto: Você já tem a proposta do terceiro por escrito (preço, forma de pagamento, garantias)?
+    opcoes:
+      - rotulo: Sim
+        proximo: condominio
+      - rotulo: Ainda não
+        resultado: obter_proposta
+
+  condominio:
+    texto: A matrícula mostra mais de um proprietário (condomínio)?
+    ajuda: Sempre confira a matrícula atualizada antes de notificar.
+    opcoes:
+      - rotulo: Sim
+        proximo: condominos_responderam
+      - rotulo: Não
+        proximo: arrendatario
+
+  condominos_responderam:
+    texto: Os demais condôminos foram notificados e recusaram a compra?
+    opcoes:
+      - rotulo: Sim, recusaram
+        proximo: arrendatario
+      - rotulo: Ainda não notifiquei
+        resultado: notificar_condominos
+      - rotulo: Um condômino quer comprar
+        resultado: venda_condomino
+
+  arrendatario:
+    texto: O arrendatário foi notificado com as mesmas condições do terceiro e já se passaram 30 dias do recebimento?
+    opcoes:
+      - rotulo: Sim, e ele recusou ou ficou em silêncio
+        resultado: vender_terceiro
+      - rotulo: Sim, e ele quer comprar igualando preço e condições
+        resultado: vender_arrendatario
+      - rotulo: Ele quer comprar, mas por valor menor
+        resultado: contraproposta_menor
+      - rotulo: Ainda não notifiquei
+        resultado: notificar_arrendatario
+
+resultados:
+  obter_proposta:
+    titulo: Formalize a proposta primeiro
+    texto: >
+      A notificação de preferência precisa trazer todas as condições do terceiro.
+      Sem proposta escrita não há como notificar corretamente.
+    links: [checklist-venda-imovel-arrendado]
+
+  notificar_condominos:
+    titulo: Notifique os condôminos primeiro
+    texto: >
+      Em condomínio, a preferência é primeiro dos demais condôminos. Só depois da
+      recusa deles você notifica o arrendatário.
+    links: [notificacoes-e-prazos]
+
+  venda_condomino:
+    titulo: Venda ao condômino
+    texto: >
+      O condômino tem preferência sobre o arrendatário e o terceiro. O comprador
+      continua obrigado a respeitar o arrendamento em curso.
+    links: [arrendamento-rural]
+
+  notificar_arrendatario:
+    titulo: Notifique o arrendatário
+    texto: >
+      Envie a notificação com as mesmas condições do terceiro (anexe a proposta
+      com o nome oculto). O arrendatário tem 30 dias do recebimento. Silêncio
+      significa desinteresse.
+    links: [notificacoes-e-prazos, checklist-venda-imovel-arrendado]
+
+  vender_terceiro:
+    titulo: Pode vender ao terceiro
+    texto: >
+      Guarde a recusa ou a prova do silêncio. O terceiro deve respeitar o
+      contrato de arrendamento. Registre a escritura e arquive tudo.
+    links: [checklist-venda-imovel-arrendado]
+
+  vender_arrendatario:
+    titulo: Venda ao arrendatário
+    texto: Ele igualou preço e condições, então tem preferência sobre o terceiro.
+    links: [arrendamento-rural]
+
+  contraproposta_menor:
+    titulo: Não é obrigatório aceitar
+    texto: >
+      A preferência só vale se o arrendatário igualar preço e condições do
+      terceiro. Oferta inferior pode ser recusada, e você segue com a venda ao
+      terceiro.
+    links: [arrendamento-rural]

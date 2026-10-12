@@ -1,0 +1,84 @@
+id: fluxo-qual-contrato-usar
+titulo: Qual contrato usar para ceder uma área rural?
+pilar: contratos
+tipo: fluxo
+resumo: Responda algumas perguntas sobre o negócio e descubra o contrato adequado.
+fonte: Aula 01 — Pilar Contratos Agrários
+revisao: pendente
+inicio: atividade
+
+perguntas:
+  atividade:
+    texto: Qual será a atividade na área?
+    ajuda: Contrato agrário só existe para atividade agrícola, pecuária, agroindustrial, extrativa ou mista.
+    opcoes:
+      - rotulo: Agrícola, pecuária, agroindustrial, extrativa ou mista
+        proximo: remuneracao
+      - rotulo: Usina solar / energia
+        proximo: garantia_investidor
+      - rotulo: Outra atividade não agrária (estrutura, construção, etc.)
+        proximo: garantia_investidor
+
+  remuneracao:
+    texto: O dono da terra vai receber alguma remuneração?
+    opcoes:
+      - rotulo: Sim
+        proximo: risco
+      - rotulo: Não, é cessão gratuita
+        resultado: comodato
+
+  risco:
+    texto: Se a safra ou a criação der prejuízo, o dono da terra continua recebendo?
+    ajuda: Esta é a pergunta que separa arrendamento de parceria.
+    opcoes:
+      - rotulo: Sim, recebe um valor fixo de qualquer forma
+        resultado: arrendamento
+      - rotulo: Não, ganha ou perde junto (recebe percentual da produção)
+        resultado: parceria
+
+  garantia_investidor:
+    texto: O investimento é alto e de longo prazo, e o investidor exige garantia real / matrícula própria?
+    opcoes:
+      - rotulo: "Sim (ex.: usina de R$ 20 mi, contrato de 25 anos)"
+        resultado: superficie
+      - rotulo: Não, as partes preferem um instrumento mais simples e barato
+        resultado: locacao_atipica
+
+resultados:
+  arrendamento:
+    titulo: Arrendamento Rural
+    texto: >
+      Valor fixo em reais, sem partilha de risco. Atenção aos prazos mínimos
+      (3/5/7 anos), ao preço em dinheiro, às benfeitorias e à notificação de
+      6 meses antes do fim.
+    links: [arrendamento-rural, checklist-redacao-arrendamento, prazos-minimos]
+
+  parceria:
+    titulo: Parceria Rural
+    texto: >
+      Partilha de riscos e de frutos. A cota do dono da terra tem teto de 20% a
+      75%, conforme aquilo com que ele contribui. Não use parceria para disfarçar
+      arrendamento — o fisco autua.
+    links: [parceria-rural, cotas-parceria, arrendamento-x-parceria]
+
+  comodato:
+    titulo: Comodato
+    texto: >
+      Cessão gratuita. Não é arrendamento, porque o arrendamento pressupõe
+      pagamento. Modelo a ser disponibilizado pela mentora.
+    links: [contratos-agrarios-visao-geral]
+
+  superficie:
+    titulo: Cessão de Direito de Superfície
+    texto: >
+      Direito real com escritura, registro e matrícula autônoma. Incide ITBI.
+      Regule o ITBI de ida e de volta e a desmobilização ao final.
+    links: [cessao-direito-superficie, checklist-cessao-superficie]
+
+  locacao_atipica:
+    titulo: Locação Atípica
+    texto: >
+      Locação de área rural fora da Lei do Inquilinato. Mais simples e barata que
+      a superfície, mas sem garantia real ao investidor. Nunca chame de
+      arrendamento uma usina solar.
+    links: [cessao-direito-superficie]

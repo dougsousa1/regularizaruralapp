@@ -1,0 +1,76 @@
+id: fluxo-esfera-responsabilidade
+titulo: Meu cliente responde por este dano ambiental? Em qual esfera?
+pilar: ambiental
+tipo: fluxo
+resumo: Separa a responsabilidade civil (objetiva, propter rem) das responsabilidades administrativa e penal (subjetivas) conforme quem causou o dano.
+fonte: Aulas 01, 04 e 05 — Pilar Ambiental
+revisao: pendente
+inicio: vinculo
+
+perguntas:
+  vinculo:
+    texto: O cliente é proprietário ou possuidor (atual ou anterior) da área danificada?
+    opcoes:
+      - rotulo: Sim
+        proximo: autor
+      - rotulo: Não
+        proximo: autor_terceiro
+
+  autor:
+    texto: Quem causou o dano?
+    opcoes:
+      - rotulo: O próprio cliente (ou alguém a mando dele)
+        resultado: tres_esferas
+      - rotulo: Terceiro (arrendatário, ex-dono, funcionário por conta própria, vizinho)
+        proximo: omissao
+
+  omissao:
+    texto: O cliente sabia, viu e nada fez (omissão relevante)?
+    opcoes:
+      - rotulo: Sim
+        resultado: tres_esferas_omissao
+      - rotulo: Não
+        resultado: so_civil
+
+  autor_terceiro:
+    texto: O cliente praticou ou mandou praticar o ato?
+    opcoes:
+      - rotulo: Sim
+        resultado: adm_penal
+      - rotulo: Não
+        resultado: sem_responsabilidade
+
+resultados:
+  tres_esferas:
+    titulo: Pode responder nas três esferas
+    texto: >
+      Civil (reparar), administrativa (multa, embargo) e penal. Verifique prescrição, parte
+      transitória do Código Florestal e benefícios penais antes de qualquer acordo.
+    links: [responsabilidade-ambiental, defesa-auto-infracao-ambiental, crimes-ambientais]
+
+  tres_esferas_omissao:
+    titulo: Risco nas três esferas pela omissão
+    texto: >
+      A omissão relevante pode gerar responsabilidade administrativa e penal, além da civil.
+      Reúna provas de que agiu (comunicação, combate ao fogo, notificação ao arrendatário).
+    links: [responsabilidade-ambiental, defesa-auto-infracao-ambiental]
+
+  so_civil:
+    titulo: Só a esfera civil
+    texto: >
+      A reparação é propter rem e objetiva: o proprietário responde mesmo sem culpa (Súmula 623
+      STJ). Multa e crime são do autor. Defenda-se no auto provando quem causou e use cláusula
+      contratual para exercer o direito de regresso.
+    links: [responsabilidade-ambiental, arrendamento-rural]
+
+  adm_penal:
+    titulo: Administrativa e penal
+    texto: Quem pratica ou manda praticar responde administrativa e penalmente, mesmo sem ser dono.
+    links: [responsabilidade-ambiental, crimes-ambientais]
+
+  sem_responsabilidade:
+    titulo: Sem responsabilidade aparente
+    texto: >
+      Sem vínculo com a área e sem participação no ato, não há responsabilidade. Se foi autuado,
+      a defesa ataca a autoria.
+    links: [defesa-auto-infracao-ambiental]

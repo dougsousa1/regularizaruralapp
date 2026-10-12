@@ -1,0 +1,111 @@
+id: qual-procedimento-regularizar
+titulo: Qual procedimento regulariza o imóvel do meu cliente?
+pilar: imobiliario
+tipo: fluxo
+resumo: Triagem para escolher entre retificação, desmembramento, extinção de condomínio, extremação, adjudicação, inventário, usucapião e regularização fundiária.
+fonte: Aulas 01, 02, 03 e 05 — Pilar Imobiliário
+revisao: pendente
+inicio: nome_matricula
+
+perguntas:
+  nome_matricula:
+    texto: O cliente está na matrícula como proprietário?
+    opcoes:
+      - rotulo: Sim, sozinho
+        proximo: problema_proprietario
+      - rotulo: Sim, junto com outros (condomínio)
+        proximo: condominio_acordo
+      - rotulo: Não — tem só contrato, posse ou herança
+        proximo: origem_publica
+
+  problema_proprietario:
+    texto: Qual é o problema?
+    opcoes:
+      - rotulo: A área medida (GEO) é diferente da matrícula, sem ter avançado sobre vizinho
+        resultado: retificacao
+      - rotulo: A área medida inclui terra que era de outra pessoa
+        resultado: usucapiao_acrescimo
+      - rotulo: Quer vender ou doar só uma parte
+        resultado: desmembramento
+      - rotulo: Quer juntar matrículas vizinhas
+        resultado: remembramento
+
+  condominio_acordo:
+    texto: Todos os condôminos concordam em dividir?
+    opcoes:
+      - rotulo: Sim
+        resultado: extincao_condominio
+      - rotulo: Não, mas a área de cada um já está cercada e ocupada há anos
+        resultado: extremacao
+      - rotulo: Não e não há divisão física
+        resultado: condominio_judicial
+
+  origem_publica:
+    texto: A área tem matrícula/título particular na origem, ou é terra pública/devoluta?
+    opcoes:
+      - rotulo: Tem matrícula de um particular
+        proximo: tem_contrato
+      - rotulo: É terra pública ou devoluta (sem título legítimo)
+        resultado: regularizacao_fundiaria
+      - rotulo: Está dentro de assentamento do INCRA
+        resultado: assentamento
+
+  tem_contrato:
+    texto: O dono da matrícula está vivo e vendeu ao cliente com contrato quitado?
+    opcoes:
+      - rotulo: Sim, há contrato e o preço foi quitado
+        resultado: adjudicacao
+      - rotulo: O dono da matrícula faleceu (e o cliente é herdeiro)
+        resultado: inventario
+      - rotulo: Não há contrato válido/quitado, mas há posse longa como dono
+        resultado: usucapiao
+
+resultados:
+  retificacao:
+    titulo: Retificação de área
+    texto: Diferença intramuros. Novo GEO, declarações, anuência dos confrontantes, requerimento no RI.
+    links: [retificacao-de-area, checklist-retificacao-area]
+  usucapiao_acrescimo:
+    titulo: Usucapião da área acrescida
+    texto: Não é retificação. Usucapião da faixa acrescida (se ≥ FMP, extrajudicial) e depois remembramento.
+    links: [usucapiao, retificacao-de-area]
+  desmembramento:
+    titulo: Desmembramento
+    texto: Respeite a FMP e o acesso à via pública. Plantas da situação atual e pretendida.
+    links: [desmembramento-remembramento, checklist-desmembramento]
+  remembramento:
+    titulo: Remembramento
+    texto: Áreas contíguas, mesmo dono, todas como propriedade.
+    links: [desmembramento-remembramento]
+  extincao_condominio:
+    titulo: Divisão amigável com extinção de condomínio
+    texto: Escritura assinada por todos, uma matrícula para cada um. Atenção ao ITBI se mudarem os percentuais.
+    links: [extincao-condominio-extremacao, checklist-extincao-condominio]
+  extremacao:
+    titulo: Extremação
+    texto: Se o estado permitir, só os confrontantes assinam. Exige posse localizável (em regra, 5 anos).
+    links: [extincao-condominio-extremacao, checklist-extremacao]
+  condominio_judicial:
+    titulo: Via judicial (com cautela)
+    texto: Sem acordo nem divisão física, resta a ação de divisão — cara e com risco de leilão. Considere a venda conjunta no mercado.
+    links: [extincao-condominio-extremacao]
+  regularizacao_fundiaria:
+    titulo: Regularização fundiária (INCRA ou órgão estadual)
+    texto: Terra pública não se usucape. Identifique se é federal ou estadual e siga o procedimento de titulação.
+    links: [terras-devolutas-regularizacao-fundiaria, checklist-titulacao-gleba-federal]
+  assentamento:
+    titulo: Regularização no assentamento
+    texto: Verifique a fase do assentamento, a situação do ocupante (RB, CCU) e as cláusulas resolutivas.
+    links: [assentamentos-reforma-agraria]
+  adjudicacao:
+    titulo: Adjudicação compulsória extrajudicial
+    texto: Contrato + quitação + vendedor omisso. Ata notarial e requerimento no RI. Paga ITBI.
+    links: [adjudicacao-compulsoria, checklist-adjudicacao-compulsoria]
+  inventario:
+    titulo: Inventário (ou inventário de posse)
+    texto: Titular falecido — inventário com ITCMD. Se o falecido só tinha posse, o STJ admite inventário de direitos possessórios (judicial).
+    links: [usucapiao]
+  usucapiao:
+    titulo: Usucapião
+    texto: Posse qualificada pelo tempo da espécie. Extrajudicial se não houver litígio.
+    links: [usucapiao, checklist-usucapiao-extrajudicial, qual-especie-usucapiao]

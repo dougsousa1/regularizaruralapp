@@ -1,0 +1,79 @@
+id: fluxo-ratificacao-fronteira
+titulo: Meu imóvel na faixa de fronteira precisa de ratificação?
+pilar: imobiliario
+tipo: fluxo
+resumo: Diagnóstico do enquadramento na Lei 13.178/2015.
+fonte: Aulas 07 e 08 — Pilar Imobiliário
+revisao: pendente
+inicio: faixa
+
+perguntas:
+  faixa:
+    texto: O imóvel está a até 150 km da fronteira terrestre?
+    opcoes:
+      - rotulo: Sim
+        proximo: origem
+      - rotulo: Não
+        resultado: fora_faixa
+
+  origem:
+    texto: Pela cadeia dominial, quem fez a titulação originária?
+    opcoes:
+      - rotulo: União / INCRA
+        resultado: nao_precisa
+      - rotulo: O Estado, com anuência do Conselho de Segurança/Defesa Nacional
+        resultado: nao_precisa
+      - rotulo: Já existe averbação de ratificação ou de "não sujeito à ratificação"
+        resultado: transportar
+      - rotulo: O Estado, sem anuência
+        proximo: tamanho
+      - rotulo: Não consegui chegar à origem
+        resultado: sem_origem
+
+  tamanho:
+    texto: Qual era a área do imóvel em outubro de 2015?
+    opcoes:
+      - rotulo: Até 15 módulos fiscais
+        proximo: litigio
+      - rotulo: Acima de 15 módulos fiscais e até 2.500 ha
+        resultado: requerida
+      - rotulo: Acima de 2.500 ha
+        resultado: congresso
+
+  litigio:
+    texto: Em 2015 havia litígio de domínio com o poder público ou ação de desapropriação para reforma agrária?
+    opcoes:
+      - rotulo: Não
+        resultado: automatica
+      - rotulo: Sim
+        resultado: requerida
+
+resultados:
+  fora_faixa:
+    titulo: Fora da faixa de fronteira
+    texto: A Lei 13.178/2015 não se aplica.
+    links: [faixa-de-fronteira-ratificacao]
+  nao_precisa:
+    titulo: Não precisa de ratificação
+    texto: Guarde a prova da origem. Se quiser, peça averbação para dar publicidade.
+    links: [faixa-de-fronteira-ratificacao]
+  transportar:
+    titulo: Peça o transporte da averbação
+    texto: Se a averbação está em matrícula encerrada, requeira que seja transportada para a matrícula atual.
+    links: [faixa-de-fronteira-ratificacao]
+  automatica:
+    titulo: Ratificação automática (pela lei)
+    texto: Em tese nada a fazer. Na prática, muitos cartórios (PR, MS, MT) não aplicam — consulte por certidão de quesito e, na dúvida, faça o procedimento.
+    links: [faixa-de-fronteira-ratificacao, checklist-ratificacao-fronteira]
+  requerida:
+    titulo: Ratificação requerida ao Registro de Imóveis
+    texto: GEO certificado, SNCR atualizado, cadeia dominial completa, certidões e escritura declaratória.
+    links: [faixa-de-fronteira-ratificacao, checklist-ratificacao-fronteira]
+  congresso:
+    titulo: Depende de aprovação do Congresso Nacional
+    texto: Lacuna legal sobre o caminho. Monte acervo probatório, provoque o cartório (e o INCRA) e acompanhe as mudanças legislativas.
+    links: [faixa-de-fronteira-ratificacao]
+  sem_origem:
+    titulo: Cadeia incompleta
+    texto: Sem o título originário não há o que ratificar. Mantenha GEO e cadastro em dia e avalie com cautela antes de provocar o cartório.
+    links: [faixa-de-fronteira-ratificacao, analise-de-matricula]

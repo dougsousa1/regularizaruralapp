@@ -1,0 +1,80 @@
+id: fluxo-qual-acao-possessoria
+titulo: Qual ação possessória usar?
+pilar: temas-especiais
+tipo: fluxo
+resumo: Identifica a agressão à posse (esbulho, turbação, ameaça) ou se o caso é petitório, e o rito pelo prazo de ano e dia.
+fonte: Aula 08 — Aulas Extras
+revisao: pendente
+inicio: teve_posse
+
+perguntas:
+  teve_posse:
+    texto: O cliente já exercia a posse da área?
+    opcoes:
+      - rotulo: Sim
+        proximo: agressao
+      - rotulo: Não, é proprietário (ou arrematante) que nunca teve a posse
+        resultado: petitoria
+
+  agressao:
+    texto: O que está acontecendo?
+    opcoes:
+      - rotulo: Perdeu a posse de toda ou de parte da área (invasão, cerca)
+        proximo: prazo_esbulho
+      - rotulo: Continua na posse, mas alguém a perturba (gado do vizinho, passagem aberta)
+        proximo: prazo_turbacao
+      - rotulo: Ainda não houve ato, mas a invasão é iminente e concreta
+        resultado: interdito
+
+  prazo_esbulho:
+    texto: O esbulho ocorreu há menos de ano e dia?
+    opcoes:
+      - rotulo: Sim
+        resultado: reintegracao_nova
+      - rotulo: Não
+        resultado: reintegracao_velha
+
+  prazo_turbacao:
+    texto: A turbação começou há menos de ano e dia?
+    opcoes:
+      - rotulo: Sim
+        resultado: manutencao_nova
+      - rotulo: Não
+        resultado: manutencao_velha
+
+resultados:
+  petitoria:
+    titulo: Ação petitória (não possessória)
+    texto: >
+      Quem nunca teve a posse defende o direito à posse por ação petitória (ex.: imissão na
+      posse do arrematante). Não há fungibilidade com as possessórias.
+    links: [acoes-possessorias, leiloes-rurais]
+
+  interdito:
+    titulo: Interdito proibitório
+    texto: >
+      Ação preventiva: peça a proibição da agressão e multa cominatória. Junte provas da
+      ameaça concreta. Se a invasão ocorrer no curso, o juiz aproveita a ação (fungibilidade).
+    links: [acoes-possessorias]
+
+  reintegracao_nova:
+    titulo: Reintegração de posse — força nova
+    texto: >
+      Rito especial com liminar (art. 561). Sem prova suficiente, o juiz designa audiência de
+      justificação. Cumule perdas e danos, frutos e multa.
+    links: [acoes-possessorias]
+
+  reintegracao_velha:
+    titulo: Reintegração de posse — força velha
+    texto: Procedimento comum; liminar só pela tutela do art. 300 do CPC (probabilidade + perigo da demora).
+    links: [acoes-possessorias]
+
+  manutencao_nova:
+    titulo: Manutenção de posse — força nova
+    texto: Rito especial com liminar para afastar a turbação. Cumule pedidos de indenização e multa.
+    links: [acoes-possessorias]
+
+  manutencao_velha:
+    titulo: Manutenção de posse — força velha
+    texto: Procedimento comum; tutela provisória pelo art. 300 do CPC.
+    links: [acoes-possessorias]

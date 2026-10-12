@@ -1,0 +1,78 @@
+id: fluxo-imovel-imune-isento-itr
+titulo: Meu imóvel paga ITR? (pequena gleba e isenções)
+pilar: fiscal
+tipo: fluxo
+resumo: Verifica a imunidade da pequena gleba e a isenção do conjunto de imóveis. Em qualquer caso, a DITR é obrigatória.
+fonte: Aula 01 — Pilar Fiscal
+revisao: pendente
+inicio: area
+
+perguntas:
+  area:
+    texto: Somando todos os imóveis rurais do titular, a área fica dentro do limite da região (100 ha Amazônia Ocidental/Pantanal; 50 ha Polígono das Secas/Amazônia Oriental; 30 ha demais)?
+    opcoes:
+      - rotulo: Sim
+        proximo: exploracao
+      - rotulo: Não
+        resultado: paga
+
+  exploracao:
+    texto: O titular explora a área ele mesmo (só ou com a família)?
+    opcoes:
+      - rotulo: Sim
+        proximo: contratos
+      - rotulo: Não
+        resultado: paga
+
+  contratos:
+    texto: Existe arrendamento, comodato ou parceria de qualquer parte da área?
+    opcoes:
+      - rotulo: Não
+        proximo: outro_imovel
+      - rotulo: Sim
+        resultado: paga_contrato
+
+  outro_imovel:
+    texto: O titular possui algum imóvel urbano (ou outro imóvel além dos somados)?
+    opcoes:
+      - rotulo: Não
+        proximo: um_ou_varios
+      - rotulo: Sim
+        resultado: paga
+
+  um_ou_varios:
+    texto: É um único imóvel ou um conjunto de imóveis?
+    opcoes:
+      - rotulo: Um único imóvel
+        resultado: imune
+      - rotulo: Conjunto de imóveis (soma dentro do limite)
+        resultado: isento
+
+resultados:
+  paga:
+    titulo: Paga ITR
+    texto: >
+      Não atende aos requisitos da pequena gleba. Confira outras hipóteses (assentamento
+      coletivo, área quilombola, entidade imune).
+    links: [itr-imunidade-isencao, itr-conceitos]
+
+  paga_contrato:
+    titulo: Paga ITR (contrato afasta o benefício)
+    texto: >
+      Arrendamento, comodato ou parceria — mesmo de parte da área — afastam a imunidade e a
+      isenção. O cliente pode manter o contrato, mas perde o benefício.
+    links: [itr-imunidade-isencao]
+
+  imune:
+    titulo: Imune (pequena gleba)
+    texto: >
+      Declare normalmente e marque a imunidade — o programa faz as perguntas e confirma. A
+      declaração é obrigatória todo ano.
+    links: [itr-imunidade-isencao, itr-declaracao-pratica]
+
+  isento:
+    titulo: Isento (conjunto de imóveis)
+    texto: >
+      Isenção da Lei 9.393/96, art. 3º. Declare cada imóvel e marque a isenção. Ajuda
+      eventual de terceiros é admitida.
+    links: [itr-imunidade-isencao]

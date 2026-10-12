@@ -1,0 +1,90 @@
+id: fluxo-tributacao-contrato-agrario
+titulo: Como tributar este contrato agrário no IR?
+pilar: fiscal
+tipo: fluxo
+resumo: Define a tributação de quem cede e de quem explora a terra conforme a forma real de exploração.
+fonte: Aula 07 — Pilar Fiscal
+revisao: pendente
+inicio: dono
+
+perguntas:
+  dono:
+    texto: Quem explora a terra é coproprietário dela (condomínio registrado na matrícula)?
+    opcoes:
+      - rotulo: Sim, todos os que exploram são donos
+        resultado: condominio
+      - rotulo: Não
+        proximo: usufruto
+
+  usufruto:
+    texto: Quem explora é usufrutuário do imóvel?
+    opcoes:
+      - rotulo: Sim
+        resultado: usufruto
+      - rotulo: Não
+        proximo: pagamento
+
+  pagamento:
+    texto: Quem cede a terra recebe alguma coisa por isso?
+    opcoes:
+      - rotulo: Não, é gratuito
+        resultado: comodato
+      - rotulo: Sim, um valor ou quantidade certa
+        resultado: arrendamento
+      - rotulo: Sim, uma parte da produção, dividindo custos e riscos
+        proximo: riscos
+
+  riscos:
+    texto: Quem cede a terra participa de verdade do custeio e do manejo (paga sua parte das despesas)?
+    opcoes:
+      - rotulo: Sim
+        resultado: parceria
+      - rotulo: Não, só recebe
+        resultado: parceria_falsa
+
+resultados:
+  condominio:
+    titulo: Condomínio — atividade rural proporcional
+    texto: >
+      Cada condômino tributa receitas e despesas na sua proporção, como atividade rural.
+      Registre o contrato (Junta Comercial ou Títulos e Documentos).
+    links: [tributacao-contratos-agrarios]
+
+  usufruto:
+    titulo: Usufrutuário é o contribuinte
+    texto: >
+      O usufrutuário declara a atividade rural. Para explorar com o nu-proprietário, use
+      cessão do exercício do usufruto (parceria é ineficaz).
+    links: [tributacao-contratos-agrarios]
+
+  comodato:
+    titulo: Comodato
+    texto: >
+      O comodatário declara a atividade rural e informa o comodante. Se o comodatário não for
+      cônjuge nem pai/filho do comodante, o comodante tem rendimento presumido de 10% do
+      valor do imóvel por ano. Holding cedendo ao sócio sem contrato cai nessa regra.
+    links: [tributacao-contratos-agrarios, holding-rural-planejamento]
+
+  arrendamento:
+    titulo: Arrendamento — aluguel para quem cede
+    texto: >
+      O arrendador tributa no carnê-leão (nunca no livro caixa rural — multa de 150%). O
+      arrendatário lança como despesa rural e informa o arrendador (código 76) — omissão gera
+      multa de 20%. Preço em sacas é cláusula nula; prazo mínimo de 3 anos (5 para pecuária de
+      grande porte).
+    links: [tributacao-contratos-agrarios, arrendamento-rural]
+
+  parceria:
+    titulo: Parceria — atividade rural proporcional
+    texto: >
+      Receitas e despesas rateadas na proporção do contrato; cada parceiro escritura seu livro
+      caixa. Registre o contrato em Títulos e Documentos.
+    links: [tributacao-contratos-agrarios, parceria-rural]
+
+  parceria_falsa:
+    titulo: Risco de descaracterização
+    texto: >
+      Sem partilha de riscos, a Receita trata como arrendamento: 27,5% sobre o recebido,
+      retroagindo 5 anos, com multa e juros. Reestruture como arrendamento ou ajuste a
+      participação nas despesas.
+    links: [tributacao-contratos-agrarios, arrendamento-x-parceria]

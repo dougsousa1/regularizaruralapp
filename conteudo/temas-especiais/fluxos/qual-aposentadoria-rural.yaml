@@ -1,0 +1,79 @@
+id: fluxo-qual-aposentadoria-rural
+titulo: Qual aposentadoria cabe a quem trabalhou na roça?
+pilar: temas-especiais
+tipo: fluxo
+resumo: Escolhe entre aposentadoria por idade rural, híbrida e por tempo de contribuição com averbação rural.
+fonte: Aula 07 — Aulas Extras
+revisao: pendente
+inicio: ultimos15
+
+perguntas:
+  ultimos15:
+    texto: O cliente trabalhou na atividade rural nos últimos 15 anos (como segurado especial ou empregado rural)?
+    opcoes:
+      - rotulo: Sim
+        proximo: idade_rural
+      - rotulo: Não, tem períodos rurais antigos e urbanos
+        proximo: idade_hibrida
+
+  idade_rural:
+    texto: Tem 60 anos (homem) ou 55 anos (mulher)?
+    opcoes:
+      - rotulo: Sim
+        resultado: idade_rural
+      - rotulo: Ainda não
+        resultado: aguardar_rural
+
+  idade_hibrida:
+    texto: Tem 65 anos (homem) ou 62 anos (mulher)?
+    opcoes:
+      - rotulo: Sim
+        resultado: hibrida
+      - rotulo: Não
+        proximo: carencia_urbana
+
+  carencia_urbana:
+    texto: Tem pelo menos 15 anos de contribuição urbana?
+    opcoes:
+      - rotulo: Sim
+        resultado: tempo_contribuicao
+      - rotulo: Não
+        resultado: planejamento
+
+resultados:
+  idade_rural:
+    titulo: Aposentadoria por idade rural
+    texto: >
+      Sem contribuição. Prove os 15 anos com o tripé: autodeclaração, documentos e
+      justificação administrativa (testemunhas no protocolo).
+    links: [segurado-especial-previdencia-rural, checklist-prova-atividade-rural]
+
+  aguardar_rural:
+    titulo: Mantenha a qualidade e organize a prova
+    texto: >
+      Enquanto não atinge a idade, mantenha a atividade rural e guarde documentos (notas,
+      ficha do sindicato). Se houver tempo urbano relevante, compare com a híbrida e o tempo de
+      contribuição.
+    links: [segurado-especial-previdencia-rural]
+
+  hibrida:
+    titulo: Aposentadoria híbrida
+    texto: >
+      Soma rural de qualquer época (inclusive infância) com urbano para fechar 15 anos.
+      Prefira-a ao BPC: tem 13º e gera pensão.
+    links: [segurado-especial-previdencia-rural, checklist-prova-atividade-rural]
+
+  tempo_contribuicao:
+    titulo: Tempo de contribuição com averbação rural
+    texto: >
+      Some o rural ao urbano nas regras de transição. Rural até outubro de 1991 conta sem
+      recolhimento; depois, exige indenização — só emita a guia depois que o INSS reconhecer o
+      período.
+    links: [segurado-especial-previdencia-rural]
+
+  planejamento:
+    titulo: Planejamento previdenciário
+    texto: >
+      Ainda sem requisitos. Faça a linha do tempo rural e simule quanto falta em cada regra
+      (híbrida aos 65/62 pode ser o caminho).
+    links: [segurado-especial-previdencia-rural]

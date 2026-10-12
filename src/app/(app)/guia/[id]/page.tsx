@@ -1,0 +1,22 @@
+import type { Metadata } from "next";
+import Artigo from "@/components/Artigo";
+import { getItem, itensDoTipo } from "@/lib/conteudo";
+
+type Props = { params: Promise<{ id: string }> };
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return itensDoTipo("guia").map((i) => ({ id: i.id }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const item = getItem(id);
+  return { title: item?.titulo, description: item?.resumo };
+}
+
+export default async function Pagina({ params }: Props) {
+  const { id } = await params;
+  return <Artigo id={id} tipo="guia" />;
+}

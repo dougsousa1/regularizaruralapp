@@ -1,0 +1,151 @@
+id: fluxo-estrangeiro-pode-comprar
+titulo: Estrangeiro pode comprar ou arrendar este imóvel rural?
+pilar: aquisicao
+tipo: fluxo
+resumo: Triagem rápida das restrições da Lei 5.709/71 e da faixa de fronteira para pessoa física, pessoa jurídica estrangeira ou empresa equiparada.
+fonte: Aula 03 — Pilar Aquisição de Imóveis
+revisao: pendente
+inicio: ato
+
+perguntas:
+  ato:
+    texto: O que o estrangeiro (ou empresa) pretende fazer com o imóvel rural?
+    opcoes:
+      - rotulo: Comprar ou arrendar
+        proximo: portugues
+      - rotulo: Receber em garantia, executar ou receber em dação em pagamento
+        resultado: garantia_liberada
+
+  portugues:
+    texto: A pessoa é portuguesa com o estatuto de igualdade de direitos?
+    opcoes:
+      - rotulo: Sim
+        resultado: portugues_livre
+      - rotulo: Não
+        proximo: fronteira
+
+  fronteira:
+    texto: O imóvel está na faixa de fronteira (até 150 km da divisa)?
+    opcoes:
+      - rotulo: Sim
+        resultado: fronteira_cdn
+      - rotulo: Não
+        proximo: quem
+
+  quem:
+    texto: Quem vai adquirir?
+    ajuda: Empresa brasileira com maioria do capital ou controle estrangeiro é equiparada a estrangeira.
+    opcoes:
+      - rotulo: Pessoa física estrangeira residente no Brasil
+        proximo: municipio_pf
+      - rotulo: Pessoa jurídica estrangeira ou empresa brasileira equiparada
+        proximo: municipio_pj
+      - rotulo: Empresa brasileira com estrangeiro minoritário e sem controle
+        resultado: brasileira_livre
+
+  municipio_pf:
+    texto: Somadas as áreas de estrangeiros no município, a compra respeita 25% da área do município (e 40% desse limite para a mesma nacionalidade)?
+    opcoes:
+      - rotulo: Sim
+        proximo: area_pf
+      - rotulo: Não ou não sei
+        resultado: limite_municipio
+
+  area_pf:
+    texto: Qual o tamanho da área em MEI (módulos de exploração indefinida do município)?
+    ajuda: O MEI é fixado pelo INCRA por município.
+    opcoes:
+      - rotulo: Até 3 MEI
+        resultado: pf_livre
+      - rotulo: De 3 a 50 MEI
+        resultado: pf_incra
+      - rotulo: Acima de 50 MEI
+        resultado: pf_congresso
+
+  municipio_pj:
+    texto: A compra respeita os limites de 25% do município e 40% para a mesma nacionalidade?
+    opcoes:
+      - rotulo: Sim
+        proximo: area_pj
+      - rotulo: Não ou não sei
+        resultado: limite_municipio
+
+  area_pj:
+    texto: A área é de até 100 MEI?
+    opcoes:
+      - rotulo: Sim
+        resultado: pj_projeto
+      - rotulo: Não
+        resultado: pj_acima
+
+resultados:
+  garantia_liberada:
+    titulo: Liberado — garantia não sofre a restrição
+    texto: >
+      A Lei 13.986/2020 excepcionou a constituição de garantia real, a execução
+      (judicial ou por alienação fiduciária) e a dação em pagamento em favor de
+      estrangeiro ou empresa equiparada.
+    links: [aquisicao-por-estrangeiro]
+
+  portugues_livre:
+    titulo: Sem restrição (reciprocidade)
+    texto: Portugueses com o estatuto de igualdade não sofrem as restrições da Lei 5.709/71.
+    links: [aquisicao-por-estrangeiro]
+
+  fronteira_cdn:
+    titulo: Depende do Conselho de Defesa Nacional
+    texto: >
+      Na faixa de fronteira, qualquer participação estrangeira, mesmo minoritária,
+      depende de assentimento prévio do CDN (Lei 6.634/79), além das regras gerais.
+    links: [aquisicao-por-estrangeiro, faixa-de-fronteira-ratificacao]
+
+  brasileira_livre:
+    titulo: Em regra, não é equiparada
+    texto: >
+      A restrição alcança a empresa com maioria do capital ou controle estrangeiro
+      (Parecer AGU 2010). Confira acordos de acionistas e a composição real do
+      controle antes de concluir.
+    links: [aquisicao-por-estrangeiro]
+
+  limite_municipio:
+    titulo: Verifique o limite do município antes de seguir
+    texto: >
+      Sem respeitar os limites de 25% do município e 40% por nacionalidade, a
+      aquisição não pode ser feita. Ato praticado sem observar a lei é nulo de
+      pleno direito.
+    links: [limites-estrangeiro]
+
+  pf_livre:
+    titulo: Livre (até 3 MEI)
+    texto: Fora da faixa de fronteira e dentro dos limites municipais, a aquisição até 3 MEI independe de autorização.
+    links: [limites-estrangeiro]
+
+  pf_incra:
+    titulo: Depende de autorização do INCRA
+    texto: >
+      Entre 3 e 50 MEI é preciso autorização do INCRA. Não assine promessa de compra
+      e venda antes: o ato sem autorização é nulo. Na prática, o processo é lento e
+      imprevisível — avalie alternativas (usufruto, parceria, estruturas com
+      parceiro brasileiro).
+    links: [aquisicao-por-estrangeiro]
+
+  pf_congresso:
+    titulo: Depende do Congresso Nacional
+    texto: Acima de 50 MEI, a aquisição por pessoa física estrangeira depende de autorização do Congresso Nacional.
+    links: [aquisicao-por-estrangeiro]
+
+  pj_projeto:
+    titulo: Exige projeto de exploração aprovado
+    texto: >
+      A pessoa jurídica precisa de projeto de exploração vinculado ao objeto social,
+      aprovado (INCRA e Ministério da Agricultura ou da Indústria). Avalie as
+      alternativas usadas no mercado antes de iniciar o processo.
+    links: [aquisicao-por-estrangeiro, limites-estrangeiro]
+
+  pj_acima:
+    titulo: Acima do limite legal
+    texto: >
+      O limite citado na aula para pessoa jurídica estrangeira ou equiparada é de 100
+      MEI. Considere estruturas alternativas (usufruto, parceria, fundos, parceiro
+      brasileiro) com análise de risco.
+    links: [aquisicao-por-estrangeiro]
