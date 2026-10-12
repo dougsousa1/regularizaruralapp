@@ -23,7 +23,7 @@ conteudo/
 | Contratos Agrários | ✅ Primeira versão — aguardando revisão jurídica |
 | Imobiliário | ✅ Primeira versão — aguardando revisão jurídica |
 | Aquisição de Imóveis | ✅ Primeira versão — aguardando revisão jurídica |
-| Fiscal | ⏳ A fazer |
+| Fiscal | ✅ Primeira versão — aguardando revisão jurídica |
 | Ambiental | ⏳ A fazer |
 | Cadastros | ✅ Primeira versão — aguardando revisão jurídica |
 | Temas Especiais (holding, crédito rural, carbono…) | ⏳ A fazer |
