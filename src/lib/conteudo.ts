@@ -3,7 +3,10 @@ import path from "node:path";
 import matter from "gray-matter";
 import yaml from "js-yaml";
 import { Marked, type Tokens } from "marked";
-import { PILARES, TIPOS, rotaDoItem, type Tipo } from "./pilares";
+import { unstable_cache } from "next/cache";
+import { cache } from "react";
+import { PILARES_BASE, TIPOS, rotaDoItem, type Pilar, type Tipo } from "./pilares";
+import { supabaseSecreto } from "./supabase/secreto";
 
 const RAIZ = path.join(process.cwd(), "conteudo");
 
@@ -16,6 +19,8 @@ export type Fluxo = {
   resultados: Record<string, ResultadoFluxo>;
 };
 
+export type Origem = "arquivo" | "editado" | "novo";
+
 export type Item = {
   id: string;
   titulo: string;
@@ -27,18 +32,15 @@ export type Item = {
   relacionados: string[];
   fonte: string;
   revisao: string;
-  /** caminho absoluto do arquivo de origem */
-  arquivo: string;
-  /** markdown sem o frontmatter e sem o título H1 */
+  /** markdown sem o frontmatter e sem o título H1; links internos já como rotas do site */
   corpo: string;
   fluxo?: Fluxo;
+  /** de onde veio: só arquivo, arquivo editado no painel, ou criado no painel */
+  origem: Origem;
+  atualizadoEm?: string;
 };
 
 export type ItemResumo = Pick<Item, "id" | "titulo" | "pilar" | "tipo" | "resumo">;
-
-type Base = { itens: Item[]; porId: Map<string, Item>; porArquivo: Map<string, Item> };
-
-let cache: Base | null = null;
 
 function lista(v: unknown): string[] {
   if (!v) return [];
@@ -50,9 +52,15 @@ function semTitulo(md: string): string {
   return md.replace(/^\s*# .*\n/, "").trim();
 }
 
-function carregar(): Base {
+// ---------- Arquivos do repositório (base) ----------
+
+type Arquivos = { itens: Item[]; porArquivo: Map<string, Item> };
+let cacheArquivos: Arquivos | null = null;
+
+function lerArquivos(): Arquivos {
   const itens: Item[] = [];
-  for (const pilar of PILARES) {
+  const caminhos: string[] = [];
+  for (const pilar of PILARES_BASE) {
     for (const [tipo, info] of Object.entries(TIPOS) as [Tipo, (typeof TIPOS)[Tipo]][]) {
       const pasta = path.join(RAIZ, pilar.slug, info.pasta);
       if (!fs.existsSync(pasta)) continue;
@@ -72,9 +80,10 @@ function carregar(): Base {
             relacionados: lista(data.relacionados),
             fonte: String(data.fonte ?? ""),
             revisao: String(data.revisao ?? "pendente"),
-            arquivo,
             corpo: semTitulo(content),
+            origem: "arquivo",
           });
+          caminhos.push(arquivo);
         } else if (nome.endsWith(".yaml") || nome.endsWith(".yml")) {
           const data = yaml.load(texto) as Record<string, unknown>;
           itens.push({
@@ -88,44 +97,171 @@ function carregar(): Base {
             relacionados: [],
             fonte: String(data.fonte ?? ""),
             revisao: String(data.revisao ?? "pendente"),
-            arquivo,
             corpo: "",
             fluxo: {
               inicio: String(data.inicio),
               perguntas: (data.perguntas ?? {}) as Fluxo["perguntas"],
               resultados: (data.resultados ?? {}) as Fluxo["resultados"],
             },
+            origem: "arquivo",
           });
+          caminhos.push(arquivo);
         }
       }
     }
   }
+  const porArquivo = new Map(itens.map((i, n) => [caminhos[n], i]));
+  // Links relativos entre arquivos viram rotas do site (assim o texto pode ser editado no painel).
+  itens.forEach((i, n) => {
+    if (i.corpo) i.corpo = i.corpo.replace(/\]\(([^)\s]+)\)/g, (m, href: string) => `](${resolverLink(href, caminhos[n], porArquivo)})`);
+  });
+  return { itens, porArquivo };
+}
+
+function arquivos(): Arquivos {
+  if (!cacheArquivos || process.env.NODE_ENV === "development") cacheArquivos = lerArquivos();
+  return cacheArquivos;
+}
+
+// ---------- Banco (edições do painel) ----------
+
+export type LinhaPilar = {
+  slug: string;
+  nome: string;
+  descricao: string;
+  icone: string;
+  comece_aqui: string | null;
+  ordem: number;
+  excluido: boolean;
+};
+
+export type LinhaConteudo = {
+  id: string;
+  pilar: string;
+  tipo: Tipo;
+  titulo: string;
+  resumo: string;
+  tags: string[];
+  base_legal: string[];
+  relacionados: string[];
+  fonte: string;
+  revisao: string;
+  corpo: string;
+  fluxo: Fluxo | null;
+  excluido: boolean;
+  atualizado_em: string;
+};
+
+export const TAG_CONTEUDO = "conteudo";
+
+const lerBanco = unstable_cache(
+  async (): Promise<{ pilares: LinhaPilar[]; conteudos: LinhaConteudo[] }> => {
+    const supabase = supabaseSecreto();
+    if (!supabase) return { pilares: [], conteudos: [] };
+    const [p, c] = await Promise.all([
+      supabase.from("pilares").select("slug, nome, descricao, icone, comece_aqui, ordem, excluido"),
+      supabase
+        .from("conteudos")
+        .select("id, pilar, tipo, titulo, resumo, tags, base_legal, relacionados, fonte, revisao, corpo, fluxo, excluido, atualizado_em"),
+    ]);
+    if (p.error || c.error) throw new Error(`Falha ao ler o conteúdo do banco: ${(p.error ?? c.error)?.message}`);
+    return { pilares: (p.data ?? []) as LinhaPilar[], conteudos: (c.data ?? []) as LinhaConteudo[] };
+  },
+  ["conteudo-banco-v1"],
+  { tags: [TAG_CONTEUDO], revalidate: 3600 },
+);
+
+async function lerBancoSeguro() {
+  try {
+    return await lerBanco();
+  } catch (e) {
+    console.error(e);
+    return { pilares: [], conteudos: [] };
+  }
+}
+
+export function itemDaLinha(l: LinhaConteudo, origem: Origem): Item {
   return {
-    itens,
-    porId: new Map(itens.map((i) => [i.id, i])),
-    porArquivo: new Map(itens.map((i) => [i.arquivo, i])),
+    id: l.id,
+    titulo: l.titulo,
+    pilar: l.pilar,
+    tipo: l.tipo,
+    resumo: l.resumo,
+    tags: l.tags ?? [],
+    baseLegal: l.base_legal ?? [],
+    relacionados: l.relacionados ?? [],
+    fonte: l.fonte,
+    revisao: l.revisao,
+    corpo: l.corpo ?? "",
+    fluxo: l.fluxo ?? undefined,
+    origem,
+    atualizadoEm: l.atualizado_em,
   };
 }
 
-function base(): Base {
-  if (!cache || process.env.NODE_ENV === "development") cache = carregar();
-  return cache;
+// ---------- Base combinada ----------
+
+type Base = { pilares: Pilar[]; itens: Item[]; porId: Map<string, Item> };
+
+const base = cache(async (): Promise<Base> => {
+  const { pilares: linhasPilar, conteudos } = await lerBancoSeguro();
+
+  const pilaresMap = new Map<string, Pilar & { ordem: number; excluido?: boolean }>();
+  PILARES_BASE.forEach((p, n) => pilaresMap.set(p.slug, { ...p, ordem: n * 10 }));
+  for (const l of linhasPilar) {
+    pilaresMap.set(l.slug, {
+      slug: l.slug,
+      nome: l.nome,
+      descricao: l.descricao,
+      icone: l.icone,
+      comeceAqui: l.comece_aqui || undefined,
+      ordem: l.ordem,
+      excluido: l.excluido,
+    });
+  }
+  const pilares = [...pilaresMap.values()]
+    .filter((p) => !p.excluido)
+    .sort((a, b) => a.ordem - b.ordem)
+    .map(({ slug, nome, descricao, icone, comeceAqui }) => ({ slug, nome, descricao, icone, comeceAqui }));
+  const ativos = new Set(pilares.map((p) => p.slug));
+
+  const porId = new Map<string, Item>();
+  for (const i of arquivos().itens) porId.set(i.id, i);
+  for (const l of conteudos) {
+    if (l.excluido) porId.delete(l.id);
+    else porId.set(l.id, itemDaLinha(l, porId.has(l.id) ? "editado" : "novo"));
+  }
+  const itens = [...porId.values()].filter((i) => ativos.has(i.pilar));
+  return { pilares, itens, porId: new Map(itens.map((i) => [i.id, i])) };
+});
+
+/** Itens dos arquivos originais (para o painel restaurar uma versão). */
+export function itemOriginal(id: string): Item | undefined {
+  return arquivos().itens.find((i) => i.id === id);
 }
 
-export function todosItens(): Item[] {
-  return base().itens;
+export async function todosPilares(): Promise<Pilar[]> {
+  return (await base()).pilares;
 }
 
-export function getItem(id: string): Item | undefined {
-  return base().porId.get(id);
+export async function getPilar(slug: string): Promise<Pilar | undefined> {
+  return (await base()).pilares.find((p) => p.slug === slug);
 }
 
-export function itensDoPilar(pilar: string, tipo?: Tipo): Item[] {
-  return todosItens().filter((i) => i.pilar === pilar && (!tipo || i.tipo === tipo));
+export async function todosItens(): Promise<Item[]> {
+  return (await base()).itens;
 }
 
-export function itensDoTipo(tipo: Tipo): Item[] {
-  return todosItens().filter((i) => i.tipo === tipo);
+export async function getItem(id: string): Promise<Item | undefined> {
+  return (await base()).porId.get(id);
+}
+
+export async function itensDoPilar(pilar: string, tipo?: Tipo): Promise<Item[]> {
+  return (await todosItens()).filter((i) => i.pilar === pilar && (!tipo || i.tipo === tipo));
+}
+
+export async function itensDoTipo(tipo: Tipo): Promise<Item[]> {
+  return (await todosItens()).filter((i) => i.tipo === tipo);
 }
 
 export function resumo(i: Item): ItemResumo {
@@ -137,13 +273,14 @@ export function rota(i: Pick<Item, "tipo" | "id">): string {
 }
 
 /** Itens relacionados que existem, incluindo quem aponta para este item. */
-export function relacionadosDe(item: Item): Item[] {
+export async function relacionadosDe(item: Item): Promise<Item[]> {
+  const b = await base();
   const ids = new Set(item.relacionados);
-  for (const outro of todosItens()) {
+  for (const outro of b.itens) {
     if (outro.id !== item.id && outro.relacionados.includes(item.id)) ids.add(outro.id);
   }
   ids.delete(item.id);
-  return [...ids].map(getItem).filter((i): i is Item => !!i);
+  return [...ids].map((id) => b.porId.get(id)).filter((i): i is Item => !!i);
 }
 
 // ---------- Markdown ----------
@@ -162,11 +299,11 @@ export function slugify(texto: string): string {
 export type Secao = { id: string; titulo: string };
 
 /** Converte link relativo entre arquivos da base em rota do site. */
-function resolverLink(href: string, origem: string): string {
+function resolverLink(href: string, origem: string, porArquivo = arquivos().porArquivo): string {
   if (/^(https?:|mailto:|#|\/)/.test(href)) return href;
   const [caminho, ancora] = href.split("#");
   const alvo = path.resolve(path.dirname(origem), caminho);
-  const item = base().porArquivo.get(alvo);
+  const item = porArquivo.get(alvo);
   if (item) return rota(item) + (ancora ? `#${ancora}` : "");
   const rel = path.relative(RAIZ, alvo);
   const revisao = rel.match(/^([^/]+)\/REVISAO\.md$/);
@@ -174,7 +311,7 @@ function resolverLink(href: string, origem: string): string {
   return href;
 }
 
-export function renderizar(md: string, origem: string): { html: string; secoes: Secao[] } {
+export function renderizar(md: string, origem = RAIZ + "/_"): { html: string; secoes: Secao[] } {
   const secoes: Secao[] = [];
   const usados = new Map<string, number>();
   const marked = new Marked({ gfm: true });
@@ -211,7 +348,7 @@ export function renderizar(md: string, origem: string): { html: string; secoes: 
   return { html, secoes };
 }
 
-export function renderizarInline(md: string, origem: string): string {
+export function renderizarInline(md: string, origem?: string): string {
   return renderizar(md, origem).html.replace(/^<p>([\s\S]*)<\/p>\n?$/, "$1");
 }
 
@@ -232,7 +369,7 @@ export function estruturarChecklist(item: Item): SecaoChecklist[] {
 
   const fecharNota = () => {
     const texto = nota.join("\n").trim();
-    if (texto) atual.blocos.push({ tipo: "nota", html: renderizar(texto, item.arquivo).html });
+    if (texto) atual.blocos.push({ tipo: "nota", html: renderizar(texto).html });
     nota = [];
   };
   const blocoItens = () => {
@@ -250,13 +387,13 @@ export function estruturarChecklist(item: Item): SecaoChecklist[] {
       fecharNota();
       pilha = [];
       if (atual.titulo || atual.blocos.length) secoes.push(atual);
-      atual = { titulo: renderizarInline(titulo[2], item.arquivo), nivel: titulo[1].length, blocos: [] };
+      atual = { titulo: renderizarInline(titulo[2]), nivel: titulo[1].length, blocos: [] };
     } else if (marcado) {
       fecharNota();
       const indent = marcado[1].length;
       const novo: ItemChecklist = {
         chave: `i${contador++}`,
-        html: renderizarInline(marcado[2], item.arquivo),
+        html: renderizarInline(marcado[2]),
         filhos: [],
       };
       while (pilha.length && pilha[pilha.length - 1].indent >= indent) pilha.pop();
@@ -266,7 +403,7 @@ export function estruturarChecklist(item: Item): SecaoChecklist[] {
     } else if (/^\s+\S/.test(linha) && pilha.length && !nota.length) {
       // continuação do texto do item anterior
       const ultimo = pilha[pilha.length - 1].item;
-      ultimo.html += " " + renderizarInline(linha.trim(), item.arquivo);
+      ultimo.html += " " + renderizarInline(linha.trim());
     } else {
       if (linha.trim()) pilha = [];
       nota.push(linha);
@@ -323,8 +460,8 @@ function contarItens(secoes: SecaoChecklist[]): number {
   );
 }
 
-export function catalogo(): ItemCatalogo[] {
-  return todosItens().map((i) => ({
+export async function catalogo(): Promise<ItemCatalogo[]> {
+  return (await todosItens()).map((i) => ({
     ...resumo(i),
     ...(i.tipo === "checklist" ? { total: contarItens(estruturarChecklist(i)) } : {}),
   }));

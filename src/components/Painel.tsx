@@ -4,7 +4,8 @@ import Link from "next/link";
 import type { ItemCatalogo } from "@/lib/conteudo";
 import { useCatalogo } from "@/lib/catalogo-cliente";
 import { lerMarcadosDe, useConcluidos, useFavoritos, useMontado, useRecentes, useVersaoEstado } from "@/lib/estado";
-import { getPilar, rotaDoItem, TIPOS } from "@/lib/pilares";
+import { rotaDoItem, TIPOS } from "@/lib/pilares";
+import { NomePilar } from "./ProvedorPilares";
 import { IconeTipo } from "./Cartoes";
 import Icone from "./Icone";
 import { abrirBusca } from "./PaletaBusca";
@@ -47,7 +48,7 @@ function CartaoRecente({ item }: { item: ItemCatalogo }) {
         <IconeTipo tipo={item.tipo} tamanho="h-9 w-9" />
         <span className="text-[11px] font-medium uppercase tracking-wider text-white/35">
           {TIPOS[item.tipo].nome}
-          <span className="block normal-case tracking-normal text-white/30">{getPilar(item.pilar)?.nome}</span>
+          <span className="block normal-case tracking-normal text-white/30"><NomePilar slug={item.pilar} /></span>
         </span>
       </div>
       <p className="mt-3 line-clamp-2 font-semibold leading-snug text-white group-hover:text-ouro-100">{item.titulo}</p>

@@ -3,6 +3,7 @@ import { Trilha } from "@/components/Cartoes";
 import Icone from "@/components/Icone";
 import { todosItens } from "@/lib/conteudo";
 import { supabaseServidor } from "@/lib/supabase/servidor";
+import AbasAdmin from "./AbasAdmin";
 import FormLiberar from "./FormLiberar";
 import TabelaAlunos, { type LinhaAluno } from "./TabelaAlunos";
 
@@ -22,7 +23,7 @@ export default async function PaginaAdmin() {
 
   const progressoPorId = new Map((progresso ?? []).map((p) => [p.usuario_id, p]));
   const perfilPorEmail = new Map((perfis ?? []).map((p) => [p.email, p]));
-  const totalEstudo = todosItens().filter((i) => i.tipo === "guia" || i.tipo === "referencia").length;
+  const totalEstudo = (await todosItens()).filter((i) => i.tipo === "guia" || i.tipo === "referencia").length;
 
   const linhas: LinhaAluno[] = (acessos ?? []).map((a) => {
     const perfil = perfilPorEmail.get(a.email);
@@ -54,6 +55,7 @@ export default async function PaginaAdmin() {
   return (
     <div className="container-site pt-2 lg:pt-0">
       <Trilha partes={[{ rotulo: "Administração" }]} />
+      <AbasAdmin />
       <p className="rotulo">Painel da mentoria</p>
       <h1 className="titulo-display mt-2 text-3xl sm:text-4xl">Alunos e acessos</h1>
       <p className="mt-2 max-w-2xl text-[15px] text-white/55">

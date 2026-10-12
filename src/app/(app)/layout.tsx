@@ -1,20 +1,22 @@
 import { AbasCelular, BarraLateral, BarraTopo } from "@/components/Navegacao";
 import PaletaBusca from "@/components/PaletaBusca";
 import SincronizarProgresso from "@/components/SincronizarProgresso";
-import { itensDoPilar, todosItens } from "@/lib/conteudo";
-import { PILARES } from "@/lib/pilares";
+import ProvedorPilares from "@/components/ProvedorPilares";
+import { todosItens, todosPilares } from "@/lib/conteudo";
 
-export default function LayoutApp({ children }: { children: React.ReactNode }) {
-  const pilares = PILARES.map((p) => ({
+export default async function LayoutApp({ children }: { children: React.ReactNode }) {
+  const [lista, itens] = await Promise.all([todosPilares(), todosItens()]);
+  const pilares = lista.map((p) => ({
     slug: p.slug,
     nome: p.nome,
     icone: p.icone,
-    total: itensDoPilar(p.slug).length,
+    descricao: p.descricao,
+    total: itens.filter((i) => i.pilar === p.slug).length,
   }));
-  const totalEstudo = todosItens().filter((i) => i.tipo === "guia" || i.tipo === "referencia").length;
+  const totalEstudo = itens.filter((i) => i.tipo === "guia" || i.tipo === "referencia").length;
 
   return (
-    <>
+    <ProvedorPilares pilares={pilares}>
       <BarraLateral pilares={pilares} totalEstudo={totalEstudo} />
       <div className="flex min-h-screen flex-col lg:pl-72">
         <BarraTopo totalEstudo={totalEstudo} />
@@ -29,6 +31,6 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
       <AbasCelular />
       <PaletaBusca />
       <SincronizarProgresso />
-    </>
+    </ProvedorPilares>
   );
 }

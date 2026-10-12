@@ -1,9 +1,11 @@
 import { CartaoItem, Trilha } from "./Cartoes";
 import Icone from "./Icone";
-import { itensDoPilar, itensDoTipo, resumo } from "@/lib/conteudo";
-import { PILARES, TIPOS, type Tipo } from "@/lib/pilares";
+import { itensDoTipo, resumo, todosPilares } from "@/lib/conteudo";
+import { TIPOS, type Tipo } from "@/lib/pilares";
 
-export default function ListaPorPilar({ tipo, descricao }: { tipo: Tipo; descricao: string }) {
+export default async function ListaPorPilar({ tipo, descricao }: { tipo: Tipo; descricao: string }) {
+  const [pilares, doTipo] = await Promise.all([todosPilares(), itensDoTipo(tipo)]);
+  const itensDoPilar = (slug: string) => doTipo.filter((i) => i.pilar === slug);
   return (
     <div className="container-site pt-2 lg:pt-0">
       <Trilha partes={[{ rotulo: TIPOS[tipo].plural }]} />
@@ -12,23 +14,23 @@ export default function ListaPorPilar({ tipo, descricao }: { tipo: Tipo; descric
           <Icone nome={tipo} className="h-7 w-7" />
         </span>
         <div>
-          <p className="rotulo">{itensDoTipo(tipo).length} disponíveis</p>
+          <p className="rotulo">{doTipo.length} disponíveis</p>
           <h1 className="titulo-display mt-1 text-3xl sm:text-4xl">{TIPOS[tipo].plural}</h1>
         </div>
       </div>
       <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-white/55">{descricao}</p>
 
       <div className="sem-barra -mx-4 mt-6 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:px-0">
-        {PILARES.filter((p) => itensDoPilar(p.slug, tipo).length).map((p) => (
+        {pilares.filter((p) => itensDoPilar(p.slug).length).map((p) => (
           <a key={p.slug} href={`#${p.slug}`} className="chip shrink-0 py-1.5 transition hover:border-ouro-400/40 hover:text-white">
             {p.nome}
-            <span className="text-white/30">{itensDoPilar(p.slug, tipo).length}</span>
+            <span className="text-white/30">{itensDoPilar(p.slug).length}</span>
           </a>
         ))}
       </div>
 
-      {PILARES.map((p) => {
-        const itens = itensDoPilar(p.slug, tipo);
+      {pilares.map((p) => {
+        const itens = itensDoPilar(p.slug);
         if (!itens.length) return null;
         return (
           <section key={p.slug} id={p.slug} className="mt-10 scroll-mt-24">

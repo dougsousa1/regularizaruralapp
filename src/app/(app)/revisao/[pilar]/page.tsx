@@ -1,24 +1,23 @@
 import { notFound } from "next/navigation";
 import { Trilha } from "@/components/Cartoes";
-import { caminhoRevisao, renderizar, revisaoDoPilar } from "@/lib/conteudo";
-import { getPilar, PILARES } from "@/lib/pilares";
+import { caminhoRevisao, getPilar, renderizar, revisaoDoPilar, todosPilares } from "@/lib/conteudo";
 
 type Props = { params: Promise<{ pilar: string }> };
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return PILARES.filter((p) => revisaoDoPilar(p.slug)).map((p) => ({ pilar: p.slug }));
+export async function generateStaticParams() {
+  return (await todosPilares()).filter((p) => revisaoDoPilar(p.slug)).map((p) => ({ pilar: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
   const { pilar } = await params;
-  return { title: `Revisão — ${getPilar(pilar)?.nome}` };
+  return { title: `Revisão — ${(await getPilar(pilar))?.nome}` };
 }
 
 export default async function Pagina({ params }: Props) {
   const { pilar: slug } = await params;
-  const pilar = getPilar(slug);
+  const pilar = await getPilar(slug);
   const md = revisaoDoPilar(slug);
   if (!pilar || !md) notFound();
   const { html } = renderizar(md.replace(/^\s*# .*\n/, ""), caminhoRevisao(slug));

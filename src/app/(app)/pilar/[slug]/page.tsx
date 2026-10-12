@@ -5,35 +5,35 @@ import { Trilha } from "@/components/Cartoes";
 import Icone from "@/components/Icone";
 import ListaPilar from "@/components/ListaPilar";
 import { ProgressoPilar } from "@/components/Painel";
-import { getItem, itensDoPilar, rota, revisaoDoPilar } from "@/lib/conteudo";
-import { getPilar, PILARES, type Tipo } from "@/lib/pilares";
+import { getItem, getPilar, itensDoPilar, rota, revisaoDoPilar, todosPilares } from "@/lib/conteudo";
+import type { Tipo } from "@/lib/pilares";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return PILARES.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await todosPilares()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  return { title: getPilar(slug)?.nome };
+  return { title: (await getPilar(slug))?.nome };
 }
 
 const ORDEM: Tipo[] = ["fluxo", "guia", "checklist", "referencia"];
 
 export default async function PaginaPilar({ params }: Props) {
   const { slug } = await params;
-  const pilar = getPilar(slug);
+  const pilar = await getPilar(slug);
   if (!pilar) notFound();
-  const numero = PILARES.findIndex((p) => p.slug === slug) + 1;
-  const entrada = pilar.comeceAqui ? getItem(pilar.comeceAqui) : undefined;
-  const itens = itensDoPilar(slug);
+  const numero = (await todosPilares()).findIndex((p) => p.slug === slug) + 1;
+  const entrada = pilar.comeceAqui ? await getItem(pilar.comeceAqui) : undefined;
+  const itens = await itensDoPilar(slug);
   const estudo = itens.filter((i) => i.tipo === "guia" || i.tipo === "referencia").map((i) => i.id);
   const grupos = ORDEM.map((tipo) => ({
     tipo,
-    itens: itensDoPilar(slug, tipo).map((i) => ({ id: i.id, titulo: i.titulo, tipo: i.tipo, resumo: i.resumo })),
+    itens: itens.filter((i) => i.tipo === tipo).map((i) => ({ id: i.id, titulo: i.titulo, tipo: i.tipo, resumo: i.resumo })),
   })).filter((g) => g.itens.length);
 
   return (
@@ -79,7 +79,15 @@ export default async function PaginaPilar({ params }: Props) {
       </section>
 
       <div className="mt-8">
-        <ListaPilar grupos={grupos} />
+        {grupos.length ? (
+          <ListaPilar grupos={grupos} />
+        ) : (
+          <div className="vidro p-10 text-center">
+            <Icone nome="relogio" className="mx-auto h-8 w-8 text-ouro-300" />
+            <p className="mt-3 font-semibold text-white">Conteúdos chegando em breve</p>
+            <p className="mt-1 text-sm text-white/50">Este pilar acabou de ser criado. Os guias e checklists aparecem aqui assim que forem publicados.</p>
+          </div>
+        )}
       </div>
     </div>
   );

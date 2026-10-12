@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getPilar, rotaDoItem, TIPOS, type Tipo } from "@/lib/pilares";
+import { rotaDoItem, TIPOS, type Tipo } from "@/lib/pilares";
+import { NomePilar } from "./ProvedorPilares";
 import Icone from "./Icone";
 
 type ItemCartao = { id: string; titulo: string; pilar: string; tipo: Tipo; resumo: string };
@@ -37,7 +38,7 @@ export function CartaoItem({
         </span>
         {mostrarPilar && (
           <span className="mt-0.5 block text-[11px] font-medium uppercase tracking-wider text-white/35">
-            {TIPOS[item.tipo].nome} · {getPilar(item.pilar)?.nome}
+            {TIPOS[item.tipo].nome} · <NomePilar slug={item.pilar} />
           </span>
         )}
         {!compacto && <span className="mt-1.5 line-clamp-2 block text-sm leading-relaxed text-white/50">{item.resumo}</span>}

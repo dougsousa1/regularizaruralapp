@@ -35,9 +35,9 @@ Este guia traz as **regras práticas** e os **casos** da oficina.
 
 ## Passo zero: consulta de crédito
 
-Sites de análise de crédito (cadastro com CNPJ, ~R$ 24 a consulta completa) mostram
+Sites de análise de crédito (cadastro com CNPJ, cerca de R$ 24 a consulta completa) mostram
 endereço, telefone, score, pendências financeiras, protestos, participação em
-empresas e veículos. Há também busca de processos em todos os tribunais (~R$ 16,
+empresas e veículos. Há também busca de processos em todos os tribunais (cerca de R$ 16,
 limite de 100 processos).
 
 **Use para:** dimensionar a auditoria, convencer o cliente, localizar confrontantes

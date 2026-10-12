@@ -5,21 +5,22 @@ import { estruturarChecklist, getItem, itensDoTipo } from "@/lib/conteudo";
 
 type Props = { params: Promise<{ id: string }> };
 
-export const dynamicParams = false;
+// Conteúdos criados no painel são gerados na primeira visita.
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return itensDoTipo("checklist").map((i) => ({ id: i.id }));
+export async function generateStaticParams() {
+  return (await itensDoTipo("checklist")).map((i) => ({ id: i.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const item = getItem(id);
+  const item = await getItem(id);
   return { title: item?.titulo, description: item?.resumo };
 }
 
 export default async function PaginaChecklist({ params }: Props) {
   const { id } = await params;
-  const { item } = cabecalhoItem(id, "checklist");
+  const { item } = await cabecalhoItem(id, "checklist");
   return (
     <div className="container-site pt-2 lg:pt-0">
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_17rem] xl:gap-10">

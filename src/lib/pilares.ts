@@ -7,7 +7,11 @@ export type Pilar = {
   icone: string;
 };
 
-export const PILARES: Pilar[] = [
+/** Ícones que podem ser escolhidos para um pilar no painel. */
+export const ICONES_PILAR = ["contrato", "mapa", "lupa", "ficha", "moeda", "folha", "estrela", "livro", "escudo", "grade", "raio", "relogio"];
+
+/** Pilares originais. Os do painel de administração (banco) completam ou substituem estes. */
+export const PILARES_BASE: Pilar[] = [
   {
     slug: "contratos",
     nome: "Contratos Agrários",
@@ -59,10 +63,6 @@ export const PILARES: Pilar[] = [
     icone: "estrela",
   },
 ];
-
-export function getPilar(slug: string): Pilar | undefined {
-  return PILARES.find((p) => p.slug === slug);
-}
 
 export const TIPOS = {
   guia: { rota: "guia", nome: "Guia", plural: "Guias", pasta: "guias" },
