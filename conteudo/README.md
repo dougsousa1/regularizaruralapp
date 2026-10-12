@@ -25,7 +25,7 @@ conteudo/
 | Aquisição de Imóveis | ✅ Primeira versão — aguardando revisão jurídica |
 | Fiscal | ⏳ A fazer |
 | Ambiental | ⏳ A fazer |
-| Cadastros | ⏳ A fazer |
+| Cadastros | ✅ Primeira versão — aguardando revisão jurídica |
 | Temas Especiais (holding, crédito rural, carbono…) | ⏳ A fazer |
 
 ## Formato dos arquivos

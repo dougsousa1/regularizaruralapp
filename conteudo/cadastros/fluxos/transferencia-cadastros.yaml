@@ -1,0 +1,64 @@
+id: fluxo-transferencia-cadastros
+titulo: Cliente comprou um imóvel rural — como transferir CCIR e CIB?
+pilar: cadastros
+tipo: fluxo
+resumo: Ordem correta para transferir os cadastros ao novo titular usando o CNIR e a DCR.
+fonte: Aula 02 — Pilar Cadastros
+revisao: pendente
+inicio: registro
+
+perguntas:
+  registro:
+    texto: A compra já foi registrada na matrícula?
+    opcoes:
+      - rotulo: Sim
+        proximo: total
+      - rotulo: Não, só há escritura
+        resultado: justo_titulo
+
+  total:
+    texto: Ele comprou o imóvel inteiro ou só uma parte?
+    opcoes:
+      - rotulo: Inteiro
+        proximo: vinculado
+      - rotulo: Parte (desmembramento)
+        resultado: desmembramento
+
+  vinculado:
+    texto: No CNIR, o imóvel já aparece com o CIB vinculado?
+    opcoes:
+      - rotulo: Sim
+        resultado: aquisicao_total
+      - rotulo: Não
+        resultado: vincular_primeiro
+
+resultados:
+  justo_titulo:
+    titulo: Cadastre como posse a justo título
+    texto: >
+      É possível cadastrar com a escritura não registrada. Depois do registro, atualize
+      o CCIR com a matrícula atualizada.
+    links: [dcr-passo-a-passo]
+
+  desmembramento:
+    titulo: Novo CCIR por desmembramento
+    texto: >
+      Com a nova matrícula, faça a inclusão informando os dados de desmembramento
+      (código da área-mãe, CPF do vendedor, área). Atualize também a área remanescente
+      do vendedor. Depois vincule ou crie o CIB no CNIR.
+    links: [dcr-passo-a-passo, cnir-cib-cafir]
+
+  aquisicao_total:
+    titulo: Peça a aquisição de área total na DCR
+    texto: >
+      Com o vínculo feito, após o deferimento o CCIR e o CIB passam automaticamente ao
+      novo titular (confira no CNIR no dia seguinte).
+    links: [cnir-cib-cafir, dcr-passo-a-passo]
+
+  vincular_primeiro:
+    titulo: Vincule no CNIR antes de transferir
+    texto: >
+      Entre no CNIR, vincule o código do INCRA ao CIB (pesquise os CIBs pelo CPF do
+      vendedor). Depois peça a aquisição de área total na DCR — assim CCIR e CIB mudam
+      juntos de titular.
+    links: [cnir-cib-cafir]

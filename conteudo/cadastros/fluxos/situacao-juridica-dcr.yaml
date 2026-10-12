@@ -1,0 +1,49 @@
+id: fluxo-situacao-juridica-dcr
+titulo: Qual situação jurídica informar na DCR do INCRA?
+pilar: cadastros
+tipo: fluxo
+resumo: Define se o imóvel entra como área registrada, posse a justo título ou posse por simples ocupação, e o que anexar.
+fonte: Aulas 01 e 02 — Pilar Cadastros
+revisao: pendente
+inicio: matricula
+
+perguntas:
+  matricula:
+    texto: O cliente consta como proprietário na matrícula (ou transcrição) do imóvel?
+    opcoes:
+      - rotulo: Sim
+        resultado: registrada
+      - rotulo: Não
+        proximo: documento
+
+  documento:
+    texto: Ele tem um documento que pode ser levado a registro (escritura pública não registrada, sentença de usucapião, formal de partilha)?
+    opcoes:
+      - rotulo: Sim
+        resultado: justo_titulo
+      - rotulo: Não (contrato particular, cessão de posse ou nada)
+        resultado: simples_ocupacao
+
+resultados:
+  registrada:
+    titulo: Área registrada
+    texto: >
+      Anexe certidão de matrícula atualizada. Informe forma de obtenção, data do
+      registro do ato aquisitivo (R.x), área da matrícula, cartório e ofício. Some as
+      matrículas contíguas do mesmo titular num único cadastro.
+    links: [dcr-passo-a-passo, checklist-documentos-ccir]
+
+  justo_titulo:
+    titulo: Posse a justo título
+    texto: >
+      Informe forma de obtenção, data do título e área. Depois de registrar o título,
+      atualize o CCIR para área registrada.
+    links: [dcr-passo-a-passo]
+
+  simples_ocupacao:
+    titulo: Posse por simples ocupação
+    texto: >
+      Informe forma, data de início da posse e área. Anexe declaração de posse do
+      sindicato, prefeitura ou órgão de ATER assinada pelos confrontantes (e, de
+      preferência, ata notarial). Se o INCRA negar, cabe recurso administrativo.
+    links: [recurso-negativa-cadastro-posse, checklist-recurso-negativa-posse]
