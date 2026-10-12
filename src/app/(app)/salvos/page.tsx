@@ -4,8 +4,8 @@ import { todosItens } from "@/lib/conteudo";
 
 export const metadata = { title: "Meus salvos" };
 
-export default function Pagina() {
-  const totalEstudo = todosItens().filter((i) => i.tipo === "guia" || i.tipo === "referencia").length;
+export default async function Pagina() {
+  const totalEstudo = (await todosItens()).filter((i) => i.tipo === "guia" || i.tipo === "referencia").length;
   return (
     <div className="container-site pt-2 lg:pt-0">
       <Trilha partes={[{ rotulo: "Meus salvos" }]} />

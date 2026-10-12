@@ -2,8 +2,8 @@ import { textoDoFluxo, textoPlano, todosItens } from "@/lib/conteudo";
 
 export const dynamic = "force-static";
 
-export function GET() {
-  const docs = todosItens().map((i) => ({
+export async function GET() {
+  const docs = (await todosItens()).map((i) => ({
     id: i.id,
     titulo: i.titulo,
     pilar: i.pilar,

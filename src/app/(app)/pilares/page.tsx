@@ -2,12 +2,13 @@ import Link from "next/link";
 import { Trilha } from "@/components/Cartoes";
 import Icone from "@/components/Icone";
 import { ProgressoPilar } from "@/components/Painel";
-import { itensDoPilar } from "@/lib/conteudo";
-import { PILARES } from "@/lib/pilares";
+import { todosItens, todosPilares } from "@/lib/conteudo";
 
 export const metadata = { title: "Pilares" };
 
-export default function Pagina() {
+export default async function Pagina() {
+  const [PILARES, todos] = await Promise.all([todosPilares(), todosItens()]);
+  const itensDoPilar = (slug: string) => todos.filter((i) => i.pilar === slug);
   return (
     <div className="container-site pt-2 lg:pt-0">
       <Trilha partes={[{ rotulo: "Pilares" }]} />

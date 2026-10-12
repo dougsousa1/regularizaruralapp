@@ -3,14 +3,14 @@ import Icone from "@/components/Icone";
 import CatalogoModelos from "@/components/modelos/CatalogoModelos";
 import MeusDocumentos from "@/components/modelos/MeusDocumentos";
 import { resumoModelo, todosModelos } from "@/lib/modelos";
-import { PILARES } from "@/lib/pilares";
+import { todosPilares } from "@/lib/conteudo";
 
 export const metadata = { title: "Modelos de documentos" };
 
-export default function Pagina() {
+export default async function Pagina() {
   const modelos = todosModelos().map(resumoModelo);
   const titulos = Object.fromEntries(modelos.map((m) => [m.id, m.titulo]));
-  const pilares = PILARES.map((p) => ({ slug: p.slug, nome: p.nome, icone: p.icone }));
+  const pilares = (await todosPilares()).map((p) => ({ slug: p.slug, nome: p.nome, icone: p.icone }));
   return (
     <div className="container-site pt-2 lg:pt-0">
       <Trilha partes={[{ rotulo: "Modelos de documentos" }]} />

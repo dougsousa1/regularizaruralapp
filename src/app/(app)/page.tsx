@@ -3,8 +3,7 @@ import Link from "next/link";
 import { CartaoItem, TituloSecao } from "@/components/Cartoes";
 import Icone from "@/components/Icone";
 import { BuscaHero, PainelAluno, ProgressoPilar } from "@/components/Painel";
-import { catalogo, itensDoPilar, itensDoTipo, resumo, todosItens } from "@/lib/conteudo";
-import { PILARES } from "@/lib/pilares";
+import { catalogo, resumo, todosItens, todosPilares } from "@/lib/conteudo";
 
 const ATALHOS = [
   "preço do arrendamento",
@@ -16,10 +15,13 @@ const ATALHOS = [
   "estrangeiro comprar terra",
 ];
 
-export default function Inicio() {
-  const total = todosItens().length;
+export default async function Inicio() {
+  const [todos, PILARES, catalogoItens] = await Promise.all([todosItens(), todosPilares(), catalogo()]);
+  const itensDoTipo = (t: string) => todos.filter((i) => i.tipo === t);
+  const itensDoPilar = (p: string) => todos.filter((i) => i.pilar === p);
+  const total = todos.length;
   const fluxos = itensDoTipo("fluxo");
-  const cat = new Map(catalogo().map((c) => [c.id, c]));
+  const cat = new Map(catalogoItens.map((c) => [c.id, c]));
   const sugestoes = PILARES.map((p) => (p.comeceAqui ? cat.get(p.comeceAqui) : undefined)).filter(
     (i): i is NonNullable<typeof i> => !!i,
   );

@@ -5,26 +5,27 @@ import { getItem, itensDoTipo, rota } from "@/lib/conteudo";
 
 type Props = { params: Promise<{ id: string }> };
 
-export const dynamicParams = false;
+// Conteúdos criados no painel são gerados na primeira visita.
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return itensDoTipo("fluxo").map((i) => ({ id: i.id }));
+export async function generateStaticParams() {
+  return (await itensDoTipo("fluxo")).map((i) => ({ id: i.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const item = getItem(id);
+  const item = await getItem(id);
   return { title: item?.titulo, description: item?.resumo };
 }
 
 export default async function PaginaFluxo({ params }: Props) {
   const { id } = await params;
-  const { item } = cabecalhoItem(id, "fluxo");
+  const { item } = await cabecalhoItem(id, "fluxo");
   const fluxo = item.fluxo!;
   const links: Record<string, LinkResolvido> = {};
   for (const r of Object.values(fluxo.resultados)) {
     for (const l of r.links ?? []) {
-      const alvo = getItem(l);
+      const alvo = await getItem(l);
       if (alvo) links[l] = { id: alvo.id, titulo: alvo.titulo, rota: rota(alvo), tipo: alvo.tipo };
     }
   }

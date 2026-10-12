@@ -252,6 +252,66 @@
     box-shadow: inset 0 0 0 1px #e7c27d;
   }
 
+  /* ---------- Editor do painel (conteúdos) ---------- */
+  .editor-admin p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    @apply pointer-events-none float-left h-0 text-white/30;
+  }
+  .editor-admin ul[data-type="taskList"] {
+    @apply list-none pl-0;
+  }
+  .editor-admin ul[data-type="taskList"] li {
+    @apply my-1.5 flex items-start gap-3 pl-0;
+  }
+  .editor-admin ul[data-type="taskList"] li::marker {
+    content: none;
+  }
+  .editor-admin ul[data-type="taskList"] li > label {
+    @apply mt-[0.45em] shrink-0;
+  }
+  .editor-admin ul[data-type="taskList"] li > label input {
+    @apply h-4 w-4 accent-[#d4a253];
+  }
+  .editor-admin ul[data-type="taskList"] li > div {
+    @apply min-w-0 flex-1;
+  }
+  .editor-admin ul[data-type="taskList"] li > div > p {
+    @apply my-0;
+  }
+  .editor-admin table {
+    @apply my-6 w-full border-collapse overflow-hidden rounded-xl text-sm;
+  }
+  .editor-admin th,
+  .editor-admin td {
+    @apply border border-white/10 px-3 py-2 align-top;
+  }
+  .editor-admin th {
+    @apply bg-white/[0.05] text-left text-xs font-semibold uppercase tracking-wider text-ouro-200;
+  }
+  .editor-admin td p,
+  .editor-admin th p {
+    @apply my-0;
+  }
+  .editor-admin .selectedCell {
+    @apply bg-ouro-400/10;
+  }
+  .editor-admin blockquote {
+    @apply my-6 rounded-xl border-0 border-l-2 border-mata-400 bg-mata-500/10 px-5 py-1 font-normal not-italic text-white/85;
+  }
+  .editor-admin blockquote p::before,
+  .editor-admin blockquote p::after {
+    content: none;
+  }
+  .editor-admin a {
+    @apply cursor-text;
+  }
+  .editor-admin:focus-visible {
+    @apply ring-0 ring-offset-0;
+  }
+  .editor-admin li > p {
+    @apply my-0;
+  }
+
   .sem-barra {
     scrollbar-width: none;
   }

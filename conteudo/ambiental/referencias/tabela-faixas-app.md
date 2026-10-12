@@ -35,7 +35,7 @@ revisao: pendente
 
 Faixas de cursos d'água medidas **da borda da calha do leito regular**, em cada margem.
 
-# Reserva Legal — percentual mínimo
+## Reserva Legal — percentual mínimo
 
 | Local | % |
 |---|---|

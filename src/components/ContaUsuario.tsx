@@ -54,6 +54,10 @@ export default function ContaUsuario({ variante = "lateral" }: { variante?: "lat
             <Icone nome="escudo" className="h-3.5 w-3.5" />
             Alunos e acessos
           </Link>
+          <Link href="/admin/conteudos" className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-white/50 transition hover:text-white">
+            <Icone nome="contrato" className="h-3.5 w-3.5" />
+            Editar conteúdos e pilares
+          </Link>
           <Link href="/revisao" className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-white/50 transition hover:text-white">
             <Icone nome="livro" className="h-3.5 w-3.5" />
             Painel de revisão

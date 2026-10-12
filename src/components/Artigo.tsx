@@ -1,21 +1,23 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getItem, itensDoPilar, relacionadosDe, renderizar, rota } from "@/lib/conteudo";
+import { getItem, getPilar, itensDoPilar, relacionadosDe, renderizar, rota } from "@/lib/conteudo";
 import { modelosRelacionados } from "@/lib/modelos";
-import { getPilar, TIPOS, type Tipo } from "@/lib/pilares";
+import { TIPOS, type Tipo } from "@/lib/pilares";
 import { BarraLeitura, BotaoConcluir, BotaoCopiar, BotaoImprimir, BotaoSalvar, Indice, RegistrarVisita } from "./Acoes";
 import { IconeTipo, SeloRevisao, SeloTipo, Trilha } from "./Cartoes";
+import BotaoEditar from "./admin/BotaoEditar";
 import Icone from "./Icone";
 
-export function cabecalhoItem(id: string, tipo: Tipo) {
-  const item = getItem(id);
+export async function cabecalhoItem(id: string, tipo: Tipo) {
+  const item = await getItem(id);
   if (!item || item.tipo !== tipo) notFound();
-  const pilar = getPilar(item.pilar)!;
+  const pilar = await getPilar(item.pilar);
+  if (!pilar) notFound();
   return { item, pilar };
 }
 
-export function Cabecalho({ id, tipo, concluivel = true }: { id: string; tipo: Tipo; concluivel?: boolean }) {
-  const { item, pilar } = cabecalhoItem(id, tipo);
+export async function Cabecalho({ id, tipo, concluivel = true }: { id: string; tipo: Tipo; concluivel?: boolean }) {
+  const { item, pilar } = await cabecalhoItem(id, tipo);
   return (
     <header className="animate-surgir">
       <RegistrarVisita id={id} />
@@ -36,14 +38,15 @@ export function Cabecalho({ id, tipo, concluivel = true }: { id: string; tipo: T
         <BotaoSalvar id={id} />
         <BotaoCopiar />
         <BotaoImprimir />
+        <BotaoEditar id={id} />
       </div>
     </header>
   );
 }
 
-export function Lateral({ id, secoes }: { id: string; secoes?: { id: string; titulo: string }[] }) {
-  const item = getItem(id)!;
-  const rel = relacionadosDe(item);
+export async function Lateral({ id, secoes }: { id: string; secoes?: { id: string; titulo: string }[] }) {
+  const item = (await getItem(id))!;
+  const rel = await relacionadosDe(item);
   const modelos = modelosRelacionados(id);
   return (
     <aside className="nao-imprimir space-y-5 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto lg:pb-8 sem-barra">
@@ -115,8 +118,8 @@ export function Lateral({ id, secoes }: { id: string; secoes?: { id: string; tit
   );
 }
 
-export function Tags({ id }: { id: string }) {
-  const item = getItem(id)!;
+export async function Tags({ id }: { id: string }) {
+  const item = (await getItem(id))!;
   if (!item.tags.length) return null;
   return (
     <div className="nao-imprimir mt-8">
@@ -132,9 +135,9 @@ export function Tags({ id }: { id: string }) {
   );
 }
 
-export function Vizinhos({ id }: { id: string }) {
-  const item = getItem(id)!;
-  const lista = itensDoPilar(item.pilar, item.tipo);
+export async function Vizinhos({ id }: { id: string }) {
+  const item = (await getItem(id))!;
+  const lista = await itensDoPilar(item.pilar, item.tipo);
   const n = lista.findIndex((i) => i.id === id);
   const ant = lista[n - 1];
   const prox = lista[n + 1];
@@ -163,9 +166,9 @@ export function Vizinhos({ id }: { id: string }) {
   );
 }
 
-export default function Artigo({ id, tipo }: { id: string; tipo: Tipo }) {
-  const { item } = cabecalhoItem(id, tipo);
-  const { html, secoes } = renderizar(item.corpo, item.arquivo);
+export default async function Artigo({ id, tipo }: { id: string; tipo: Tipo }) {
+  const { item } = await cabecalhoItem(id, tipo);
+  const { html, secoes } = renderizar(item.corpo);
   return (
     <div className="container-site pt-2 lg:pt-0">
       <BarraLeitura />

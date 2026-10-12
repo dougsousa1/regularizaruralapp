@@ -32,7 +32,7 @@ revisao: pendente
 - [ ] Laudo técnico de localização com ART (se o estado exigir)
 - [ ] Certidões: Justiça Estadual 1º e 2º grau, Justiça Federal
 - [ ] Escritura pública declaratória
-- [ ] > 15 MF: GEO certificado e SNCR atualizado
+- [ ] Acima de 15 MF: GEO certificado e SNCR atualizado
 - [ ] MS: certidão da AGRAER / MT: documentos do INTERMAT; requerimento por advogado (MT)
 - [ ] PR: imóvel na Gleba Braviaco? (competência do INCRA)
 - [ ] Saneamento da matrícula (especialidade objetiva e subjetiva)

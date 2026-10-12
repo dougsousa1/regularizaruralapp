@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type MiniSearch from "minisearch";
 import { buscar, carregarIndice, type DocBusca, type ResultadoBusca } from "@/lib/busca";
-import { getPilar, rotaDoItem, TIPOS } from "@/lib/pilares";
+import { rotaDoItem, TIPOS } from "@/lib/pilares";
+import { NomePilar } from "./ProvedorPilares";
 import { IconeTipo } from "./Cartoes";
 import Icone from "./Icone";
 
@@ -153,7 +154,7 @@ export default function PaletaBusca() {
                   <span className="min-w-0 flex-1">
                     <span className="block font-semibold text-white">{r.titulo}</span>
                     <span className="block text-[11px] font-medium uppercase tracking-wider text-white/35">
-                      {TIPOS[r.tipo].nome} · {getPilar(r.pilar)?.nome}
+                      {TIPOS[r.tipo].nome} · <NomePilar slug={r.pilar} />
                     </span>
                     <span className="mt-1 line-clamp-2 block text-[13px] leading-relaxed text-white/50">{r.resumo}</span>
                   </span>

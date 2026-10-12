@@ -4,9 +4,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import type MiniSearch from "minisearch";
 import { buscar, carregarIndice, type DocBusca } from "@/lib/busca";
-import { PILARES, TIPOS, type Tipo } from "@/lib/pilares";
+import { TIPOS, type Tipo } from "@/lib/pilares";
 import { CartaoItem } from "./Cartoes";
 import Icone from "./Icone";
+import { usePilares } from "./ProvedorPilares";
 
 export default function BuscaCompleta() {
   const params = useSearchParams();
@@ -16,6 +17,7 @@ export default function BuscaCompleta() {
   const [indice, setIndice] = useState<MiniSearch<DocBusca> | null>(null);
   const [pilar, setPilar] = useState("");
   const [tipo, setTipo] = useState<Tipo | "">("");
+  const pilares = usePilares();
 
   useEffect(() => setConsulta(inicial), [inicial]);
   useEffect(() => {
@@ -52,7 +54,7 @@ export default function BuscaCompleta() {
           aria-label="Filtrar por pilar"
         >
           <option value="">Todos os pilares</option>
-          {PILARES.map((p) => (
+          {pilares.map((p) => (
             <option key={p.slug} value={p.slug}>
               {p.nome}
             </option>

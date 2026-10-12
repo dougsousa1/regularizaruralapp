@@ -4,15 +4,16 @@ import { getItem, itensDoTipo } from "@/lib/conteudo";
 
 type Props = { params: Promise<{ id: string }> };
 
-export const dynamicParams = false;
+// Conteúdos criados no painel são gerados na primeira visita.
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return itensDoTipo("guia").map((i) => ({ id: i.id }));
+export async function generateStaticParams() {
+  return (await itensDoTipo("guia")).map((i) => ({ id: i.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const item = getItem(id);
+  const item = await getItem(id);
   return { title: item?.titulo, description: item?.resumo };
 }
 
